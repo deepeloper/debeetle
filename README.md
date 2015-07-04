@@ -1,4 +1,3 @@
-Debeetle
-========
+# Deepelopment\Debeetle
 
-PHP Debug Tool
+PHP Debug tool

@@ -1,0 +1,20 @@
+{
+    "name": "deepelopment/debeetle",
+    "type": "project",
+    "description": "",
+    "keywords": [],
+    "license": "Unlicence",
+    "authors": [
+        {
+            "name": "deepeloper",
+            "homepage": "https://github.com/deepeloper"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1",
+        "Deepelopment/Debeetle": "dev-develop"
+    },
+    "autoload": {
+        "psr-4": {"Deepelopment\\Debeetle\\": "src/"}
+    }
+}
