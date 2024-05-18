@@ -1,6 +1,8 @@
 # Debeetle
 PHP Debugging Tools supporting third party plugins, skins and color themes.
 
+Supports panel visibility for any conditions for `$_SERVER` / `$_COOKIE` / `$_SESSION` / `$_REQUEST` / `$_GET` / `$_POST`.
+
 [![Packagist version](https://img.shields.io/packagist/v/deepeloper/debeetle)](https://packagist.org/packages/deepeloper/debeetle)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/deepeloper/debeetle.svg)](http://php.net/)
 [![GitHub license](https://img.shields.io/github/license/deepeloper/debeetle.svg)](https://github.com/deepeloper/debeetle/blob/main/LICENSE)
@@ -13,7 +15,7 @@ PHP Debugging Tools supporting third party plugins, skins and color themes.
 [![PHP 5.4](https://img.shields.io/badge/PHP->=5.4-%237A86B8)]()
 
 ## Usage
-* Checkout repo containing usage example or run `composer require deepeloper/debeetle`;
+* Checkout repo containing stanalone usage example or run `composer require deepeloper/debeetle`;
 * Set up web server to allow to access to the "public" folder; 
 * Modify "config.xml.php":
 * * Set up "debeetle/config/path/assets" and "debeetle/config/path/root" nodes to your own paths;
