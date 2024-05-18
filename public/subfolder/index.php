@@ -1,11 +1,9 @@
 <?php
 /**
- * Debeetle PHP Debug
+ * PHP Debugging & Benchmarking Tools.
  *
- * @copyright Copyright (c) XXI deepelopment.com (http://deepelopment.com/)
- * @author    Anton Leontiev (http://deepelopment.com/weregod)
- * @category  PHP_Debug
- * @package   Debeetle_Example
+ * @author [deepeloper](https://github.com/deepeloper)
+ * @license [MIT](https://opensource.org/licenses/mit-license.php)
  */
 
 use deepeloper\Debeetle\d;
