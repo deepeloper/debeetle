@@ -15,8 +15,9 @@ PHP Debugging Tools
 ## Usage
 * Checkout repo containing usage example;
 * Set up web server to allow to access to the "public" folder; 
-* Set up "debeetle/config/path/assets" and "debeetle/config/path/root" nodes to your own paths;
-* Optionally change "debeetle/config/defaults/language" node to "ru";
+* Modify "config.xml.php":
+* * Set up "debeetle/config/path/assets" and "debeetle/config/path/root" nodes to your own paths;
+* * Optionally change "debeetle/config/defaults/language" node to "ru";
 * Change $debeetlePath in "public/debeetle.php" if needed;
 * Change $debeetlePath in "public/subfolder/index.php" if needed;
 * Open url "http://localhost/debeetle/subfolder/".
