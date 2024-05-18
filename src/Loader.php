@@ -292,7 +292,7 @@ class Loader
         $limitSourceToGlobals = [
             'SERVER' => &$_SERVER,
             'COOKIE' => &$_COOKIE,
-            'SESSION' => &$_REQUEST,
+            'SESSION' => &$_SESSION,
             'REQUEST' => &$_REQUEST,
             'GET' => &$_GET,
             'POST' => &$_POST,
