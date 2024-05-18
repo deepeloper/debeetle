@@ -1,0 +1,9 @@
+.idea
+.stuff
+
+vendor/*
+composer.lock
+
+home.deepeloper.conf
+local.config.json.php
+local.config.xml.php

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="debeetle" type="debeetleType"/>
+
+  <xs:complexType name="debeetleType">
+    <xs:sequence>
+      <xs:element name="config" type="configType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="launch" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="configType">
+    <xs:sequence>
+      <xs:element name="cookie" type="cookieType" minOccurs="0"/>
+      <xs:element name="path" type="pathType" minOccurs="0"/>
+      <xs:element name="bench" type="benchType" minOccurs="0"/>
+      <xs:element name="defaults" type="defaultsType" minOccurs="0"/>
+      <xs:element name="history" type="historyType" minOccurs="0"/>
+      <xs:element name="disabled" type="disabledType" minOccurs="0"/>
+      <xs:element name="skin" type="skinType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="plugin" type="pluginType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="limit" type="limitType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="use" type="xs:boolean" default="false"/>
+    <xs:attribute name="developerMode" type="xs:boolean" default="false"/>
+    <xs:attribute name="disableCaching" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="cookieType">
+    <xs:all>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="path" type="xs:string"/>
+      <xs:element name="expires" type="xs:int"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="pathType">
+    <xs:all>
+      <xs:element name="assets" type="xs:string"/>
+      <xs:element name="script" type="xs:string"/>
+      <xs:element name="root" type="xs:string" minOccurs="0"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="benchType">
+    <xs:all>
+      <xs:element name="serverTime" type="serverTimeType"/>
+      <xs:element name="pageTotalTime" type="pageTotalTimeType"/>
+      <xs:element name="memoryUsage" type="memoryUsageType"/>
+      <xs:element name="peakMemoryUsage" type="memoryUsageType"/>
+      <xs:element name="includedFiles" type="includedFilesType"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="defaultsType">
+    <xs:all>
+      <xs:element name="language" type="xs:string"/>
+      <xs:element name="disabledPanelOpacity" type="xs:float"/>
+      <xs:element name="maxPanelHeight" type="xs:unsignedInt"/>
+      <xs:element name="skin" type="xs:string"/>
+      <xs:element name="theme" type="xs:string"/>
+      <xs:element name="opacity" type="opacityType"/>
+      <xs:element name="zoom" type="opacityType"/>
+      <xs:element name="options" type="optionsType"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="historyType">
+    <xs:all>
+      <xs:element name="records" type="xs:unsignedInt"/>
+      <xs:element name="name" type="xs:string" default="history"/>
+      <xs:element name="storage" type="xs:string" default="session"/>
+    </xs:all>
+    <xs:attribute name="use" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="disabledType">
+    <xs:all>
+      <xs:element name="tab" type="xs:string"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="skinType">
+    <xs:sequence>
+      <xs:element name="class" type="xs:string"/>
+      <xs:element name="name" type="nameType"/>
+      <xs:element name="assets" type="skinAssetsType"/>
+      <xs:element name="defaultTheme" type="xs:string"/>
+      <xs:element name="theme" type="themeType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="use" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="pluginType">
+    <xs:sequence>
+      <xs:element name="class" type="xs:string"/>
+      <xs:element name="assets" type="pluginAssetsType"/>
+      <xs:element name="method" type="methodType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="locale" type="xs:boolean" default="false"/>
+    <xs:attribute name="use" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="limitType">
+    <xs:attribute name="source" type="xs:string"/>
+    <xs:attribute name="key" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="serverTimeType">
+    <xs:sequence>
+      <xs:element name="format" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pageTotalTimeType">
+    <xs:all>
+      <xs:element name="format" type="xs:string"/>
+      <xs:element name="warning" type="xs:float"/>
+      <xs:element name="critical" type="xs:float"/>
+      <xs:element name="exclude" type="xs:string"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="memoryUsageType">
+    <xs:all>
+      <xs:element name="format" type="xs:string"/>
+      <xs:element name="warning" type="xs:float"/>
+      <xs:element name="critical" type="xs:float"/>
+      <xs:element name="divider" type="xs:unsignedInt"/>
+      <xs:element name="unit" type="xs:string"/>
+      <xs:element name="exclude" type="xs:string"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="includedFilesType">
+    <xs:all>
+      <xs:element name="warning" type="xs:unsignedInt"/>
+      <xs:element name="critical" type="xs:unsignedInt"/>
+      <xs:element name="exclude" type="xs:string"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="opacityType">
+    <xs:sequence>
+      <xs:element name="properties" type="propertiesType"/>
+      <xs:element name="selector" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="applyOnChange" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="optionsType">
+    <xs:sequence>
+      <xs:element name="write" type="writeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="nameType">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="skinAssetsType">
+    <xs:sequence>
+      <xs:element name="template" type="xs:string"/>
+      <xs:element name="js" type="xs:string"/>
+      <xs:element name="lessJs" type="xs:string"/>
+      <xs:element name="less" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="themeType">
+    <xs:sequence>
+      <xs:element name="class" type="xs:string"/>
+      <xs:element name="name" type="nameType"/>
+      <xs:element name="assets" type="themeAssetsType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="use" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="pluginAssetsType">
+    <xs:all>
+      <xs:element name="js" type="xs:string" minOccurs="0"/>
+      <xs:element name="lessJs" type="xs:string" minOccurs="0"/>
+      <xs:element name="less" type="xs:string" minOccurs="0"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="methodType">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="propertiesType">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="min" type="xs:float"/>
+      <xs:element name="max" type="xs:float"/>
+      <xs:element name="step" type="xs:float"/>
+      <xs:element name="parse" type="xs:string"/>
+      <xs:element name="value" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="writeType">
+    <xs:sequence>
+      <xs:element name="encoding" type="xs:string"/>
+      <xs:element name="htmlEntities" type="xs:boolean"/>
+      <xs:element name="nl2br" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="themeAssetsType">
+    <xs:sequence>
+      <xs:element name="lessJs" type="xs:string"/>
+      <xs:element name="less" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

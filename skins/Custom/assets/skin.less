@@ -1,0 +1,456 @@
+*
+{
+    padding: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    margin: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    line-height: normal;
+    background: transparent;
+
+    font-family: Verdana, Tahoma, Sans-Serif, Arial;
+    font-size: 12px;
+}
+
+.displayable {
+    display: block !important;
+}
+
+td.displayable {
+    display: table-cell !important;
+}
+
+.displayless {
+    display: none !important;
+}
+
+.visible {
+    visibility: visible !important;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+#container
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: block;
+
+    font-weight: normal;
+    outline: medium none;
+    text-align: left;
+
+    z-index: 19770404;
+
+    opacity: 0.95;
+}
+
+/*
+#container .vis
+{
+    border-top-color: #f00;
+}
+*/
+
+iframe
+{
+    display: none;
+}
+
+table
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: auto;
+}
+/*
+* ol
+{
+    list-style: decimal;
+}
+
+* ul
+{
+    list-style: disc;
+}
+
+* ul ul
+{
+    list-style: circle;
+}
+*/
+
+li
+{
+    margin-left: 14px;
+}
+
+* ul.dump
+{
+    list-style: none;
+}
+
+ul.dump li
+{
+    margin-left: 5px;
+}
+
+ul.dump li li
+{
+    margin-left: 14px;
+    list-style-type: disc;
+}
+
+
+* code, * pre
+{
+    font-family: Courier-new;
+}
+
+/*
+///
+#debeetleBlocker
+{
+    outline: medium none;
+    padding: 0;
+    margin: 0;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: transparent;
+    z-index: 19720221;
+    opacity: 0;
+}
+*/
+
+div.bar
+{
+    overflow: hidden;
+    padding-right: 5px;
+}
+
+div.bar *
+{
+    font-size: 11px;
+}
+
+span.changePosition
+{
+    position: relative;
+    display: inline-block;
+    float: left;
+    cursor: pointer;
+    top: 1px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #000;
+    border-bottom: 0 solid #000;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+span.onTop
+{
+    border-top-width: 10px;
+    border-bottom-width: 0;
+}
+
+span.onBottom
+{
+    border-top-width: 0;
+    border-bottom-width: 10px;
+}
+
+#container.onTop
+{
+    border-top-width: 1px;
+    border-bottom-width: 2px;
+}
+
+#container.onBottom
+{
+    border-top-width: 2px;
+    border-bottom-width: 1px;
+}
+
+span.toggleClientLaunch
+{
+    position: relative;
+    top: -1px;
+    cursor: pointer;
+
+    font-size: 17px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+div.bar td.info
+{
+    white-space: nowrap;
+
+    padding-left: 5px;
+    width: 100%;
+}
+
+div.bar td.info span.critical
+{
+    font-weight: bold;
+}
+
+div.bar td.reloadPage
+{
+    display: none;
+    cursor: default;
+}
+
+div.bar td.splitter
+{
+    width: 100%;
+    padding-left: 5px;
+}
+
+a, a:hover, a:visited
+{
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div.bar td.reloadPage, div.bar td.homepage
+{
+    white-space: nowrap;
+}
+
+#resize-line
+{
+    /* cursor: s-resize; */
+    height: 3px;
+}
+
+.title-panelHide
+{
+    cursor: auto;
+}
+
+.title-panelHide.resizable
+{
+    cursor: n-resize;
+}
+
+#dPanel
+{
+    display: none;
+}
+
+#dPanel div.panel, #dTab
+{
+    overflow: auto;
+    height: auto;
+}
+
+#dPanel div.panel
+{
+    margin: 0 3px;
+}
+
+#dPanel div.tabList
+{
+    overflow: hidden;
+}
+
+ul.tabs
+{
+    display: block;
+}
+
+ul.tabs li
+{
+    display: block;
+    float: left;
+    cursor: pointer;
+
+    font-size: 13px;
+    padding: 2px 10px;
+    margin: 0;
+}
+
+ul.tabs li.a
+{
+    cursor: auto;
+    padding: 2px 0;
+}
+
+ul.tabs li.a span
+{
+    font-weight: bold;
+    padding: 0 10px;
+    font-weight: bold;
+    height: 5px;
+}
+
+ul.tabs li.a div
+{
+    position: absolute;
+}
+
+ul.tabs li.a div div
+{
+    position: relative;
+    visibility: collapse;
+    padding: 0 10px;
+    font-weight: bold;
+    height: 5px;
+
+}
+
+#dTab
+{
+    padding: 5px;
+}
+
+#dTab div.tab
+{
+    display: none;
+    overflow: auto;
+}
+
+#dTab div.a
+{
+    display: block;
+}
+
+ul.level_1
+{
+    height: 22px;
+}
+
+ul.level_1 li
+{
+    font-size: 13px !important;
+}
+
+ul.level_2
+{
+    height: 22px;
+    margin-bottom: 10px;
+}
+
+ul.level_2 li
+{
+    cursor: pointer;
+    font-size: 11px !important;
+    border: none !important;
+    padding: 2px 10px;
+}
+
+ul.level_2 li.a div div
+{
+    display: none;
+}
+
+ul.level_2 li.l, ul.level_2 li.r
+{
+    border: none;
+}
+
+table.settings td.left
+{
+    padding-right: 3px;
+}
+
+button, input.button
+{
+    padding: 0 2px;
+    margin-top: 10px;
+}
+
+select.iSelect option, select.iColorTheme option
+{
+    margin-right: 3px;
+}
+
+select.iSelect option.selected, select.iColorTheme option.selected
+{
+    font-weight: bold;
+}
+
+fieldset.dump, fieldset.trace
+{
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+fieldset.dump.invisible, fieldset.trace.invisible
+{
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    padding-bottom: 0;
+    visibility: visible !important;
+}
+
+fieldset.dump legend, fieldset.trace legend
+{
+    cursor: pointer;
+}
+
+fieldset.dump div.content, fieldset.trace div.content
+{
+    margin: 0 4px;
+}
+
+fieldset.dump.invisible div.content, fieldset.trace.invisible div.content
+{
+    display: none;
+}
+
+fieldset.dump .over, fieldset.trace .over
+{
+    background-color: #dcd8d0;
+}
+
+table.stats
+{
+    border-width: 1px;
+    border-spacing: 2px;
+    border-style: outset;
+    border-color: #444;
+    border-collapse: separate;
+    margin-bottom: 5px;
+}
+
+table.stats thead th
+{
+    text-align: center;
+	border-width: 1px;
+	padding: 1px 2px;
+	border-style: inset;
+	border-color: #888;
+}
+
+table.stats tbody td
+{
+	border-width: 1px;
+	padding: 1px 2px;
+	border-style: inset;
+	border-color: #888;
+    text-align: right;
+}

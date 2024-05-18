@@ -1,0 +1,36 @@
+div.reports {
+    div.message {
+        background-color: @bg-dark-color;
+        padding: 2px;
+    }
+    span.date {}
+    span.counter {}
+    span.level {
+        font-weight: bold;
+    }
+    span.level_notice, span.level_user_notice {
+        text-shadow: #FFF 1px 1px 1px;
+    }
+    span.level_warning, span.level_user_warning {
+        color: #FFFF00;
+        text-shadow: #000 2px 2px 2px;
+    }
+    span.level_user_error {
+        color: #F00;
+        text-shadow: #000 2px 2px 2px;
+    }
+    span.level_user_deprecated {
+        color: #0020FF;
+        text-shadow: #FFF 1px 1px 1px;
+    }
+    span.message, span.at, span.file, span.line {
+        color: inherit;
+    }
+    code {
+        display: block;
+        border: 1px dashed @border-dark-color;
+        background-color: @bg-halflite-color;
+        margin: 4px 0 16px 2px;
+        padding: 4px 6px;
+    }
+}

@@ -1,20 +1,24 @@
 {
-    "name": "deepelopment/debeetle",
-    "type": "project",
-    "description": "",
-    "keywords": [],
-    "license": "Unlicence",
-    "authors": [
-        {
-            "name": "deepeloper",
-            "homepage": "https://github.com/deepeloper"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.1",
-        "Deepelopment/Debeetle": "dev-develop"
-    },
-    "autoload": {
-        "psr-4": {"Deepelopment\\Debeetle\\": "src/"}
+  "name": "deepeloper/debeetle",
+  "type": "project",
+  "description": "PHP Debugging Tools",
+  "homepage": "https://github.com/deepeloper/debeetle",
+  "keywords": ["php", "debug", "debugging", "tools"],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.4",
+    "ext-dom": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-mbstring": "*",
+    "ext-simplexml": "*",
+    "deepeloper/lib-xml": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "deepeloper\\Debeetle\\": ["src"],
+      "deepeloper\\Debeetle\\Plugin\\": ["plugins"],
+      "deepeloper\\Debeetle\\Skin\\": ["skins"]
     }
+  }
 }
