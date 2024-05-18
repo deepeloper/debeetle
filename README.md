@@ -19,4 +19,4 @@ PHP Debugging Tools
 * Optionally change "debeetle/config/defaults/language" node to "ru";
 * Change $debeetlePath in "public/debeetle.php" if needed;
 * Change $debeetlePath in "public/subfolder/index.php" if needed;
-* Open url "http://localhost/debeetle/subfolder/"/
+* Open url "http://localhost/debeetle/subfolder/".
