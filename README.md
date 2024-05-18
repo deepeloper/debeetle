@@ -1,5 +1,5 @@
 # Debeetle
-PHP Debugging Tools
+PHP Debugging Tools supporting third party plugins, skins and color themes.
 
 [![Packagist version](https://img.shields.io/packagist/v/deepeloper/debeetle)](https://packagist.org/packages/deepeloper/debeetle)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/deepeloper/debeetle.svg)](http://php.net/)
@@ -21,6 +21,14 @@ PHP Debugging Tools
 * Change $debeetlePath in "public/debeetle.php" if needed;
 * Change $debeetlePath in "public/subfolder/index.php" if needed;
 * Open url "http://localhost/debeetle/subfolder/".
+
+The configuration can be located either in the XML file or in the JSON file for acceleration and load reduction.
+
+## Plugins
+See <plugin/> nodes in "config.xml.php" and pluginType in "debeetle.xsd" and "plugins" folder for examples.  
+
+## Skins &amp; color themes
+See <skin/> nodes in "config.xml.php" and skinType/themeType in "debeetle.xsd" and "skins" folder for examples.
 
 ---
 Dumping object:
