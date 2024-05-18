@@ -136,6 +136,7 @@ eval("use deepeloper\Debeetle\d; $code");
 $code = <<<EOT
 
 
+#[AllowDynamicProperties]
 class Foo
 {
     public \$x = 1;
