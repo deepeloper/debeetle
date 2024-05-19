@@ -115,8 +115,8 @@ class Controller extends AbstractController
         if ($this->settings['defaults']['options']['errorHandler']['separateTabs']) {
             $tabId .= "|$level";
         }
-        $this->debeetle->tab($tabId, null, $palces);
-        $this->debeetle->write($message, ['htmlEntities' => false, 'nl2br' => false]);
+        $this->debeetle->tab($tabId, null, $palces, ['skipInternalBench' => true]);
+        $this->debeetle->write($message, ['skipInternalBench' => true, 'htmlEntities' => false, 'nl2br' => false]);
 
         if (null !== $this->previousHandler) {
             call_user_func_array($this->previousHandler, [$code, $message, $file, $line]);
