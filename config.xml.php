@@ -226,6 +226,25 @@
       </method>
     </plugin>
 
+    <plugin id="deepeloper_behcnmarks" use="true">
+      <!--
+      empty (ignore) |
+      "exception" (deepeloper\Debeetle\Plugin\Benchmarks\Exception\Exception) |
+      "E_USER_NOTICE/E_USER_WARNING/E_USER_ERROR"
+      -->
+      <onError>E_USER_NOTICE</onError>
+      <!-- Flag specifying to store delays between calls of checkpoint, memory usage / peak memory usage. -->
+      <checkpoint storeData="true"/>
+
+      <class>deepeloper\Debeetle\Plugin\Benchmarks\Controller</class>
+      <assets/>
+
+      <method name="startBenchmark"/>
+
+      <method name="endBenchmark"/>
+
+    </plugin>
+
   </config>
 
   <config name="localhost" use="true">

@@ -84,6 +84,7 @@
 
   <xs:complexType name="skinType">
     <xs:sequence>
+      <xs:element name="parentSkin" type="xs:string" minOccurs="0"/>
       <xs:element name="class" type="xs:string"/>
       <xs:element name="name" type="nameType"/>
       <xs:element name="assets" type="skinAssetsType"/>
@@ -96,6 +97,7 @@
 
   <xs:complexType name="pluginType">
     <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
       <xs:element name="class" type="xs:string"/>
       <xs:element name="assets" type="pluginAssetsType"/>
       <xs:element name="method" type="methodType" minOccurs="0" maxOccurs="unbounded"/>
@@ -194,7 +196,7 @@
 
   <xs:complexType name="methodType">
     <xs:sequence>
-      <xs:any maxOccurs="unbounded" processContents="lax"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string"/>
   </xs:complexType>

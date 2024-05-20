@@ -16,4 +16,5 @@ return [
     'tab-level4' => "Уровень 4",
     'tab-level5' => "Уровень 5",
     'tab-environment' => "Окружение",
+    'tab-benchmarks' => "Бенчмарки",
 ] + require __DIR__ . "/en.php";

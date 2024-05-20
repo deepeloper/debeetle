@@ -49,6 +49,7 @@ require_once "$debeetlePath/vendor/autoload.php";
 try {
     Loader::startup([
         'config' => realpath("$debeetlePath/config.xml.php"),
+//        'config' => realpath("$debeetlePath/local.config.xml.php"),
 //        'config' => realpath("$debeetlePath/config.json.php"),
         'developerMode' => true, // To see startup errors.
         'scriptInitState' => $scriptInitState,
@@ -87,6 +88,11 @@ function highlight($code)
 {
     d::w(highlight_string("<?php $code", true), ['htmlEntities' => false]);
 }
+
+d::bs("examples");
+d::bs("examples");
+
+d::cp("my checkpoint");
 
 d::t("examples|common");
 
@@ -207,6 +213,29 @@ trigger_error("User deprecated", E_USER_DEPRECATED);
 trigger_error("User error", E_USER_ERROR);
 $undefined = []; $undefined['undefined']; // NOTICE
 $a = 10; foreach ($a as $b) {}// WARNING
+
+
+d::cp("my checkpoint");
+
+d::be("examples");
+d::be("examples");
+d::be("unknown");
+d::t("benchmarks", null, ["after:reports"]);
+d::w("'total' counted including Debeetle execution time.<br/><br/>");
+d::w(
+"d::getBenchmarks() returns array containing bechmarks labels as keys and array<br/>" .
+     "['count' => (int)count of calls, 'total' => (double)total time]."
+);
+d::du(d::getBenchmarks(), "Benchmarks");
+d::w(
+    "d::getCheckpoints() returns array containing checkpoints labels as keys and array<br/>" .
+    "['count' => (int)count of calls, 'data' (if storeData is true) => [<br/>" .
+    "&nbsp;&nbsp;(double)time to the next call,<br/>" .
+    "&nbsp;&nbsp;(int)memory usage,<br/>" .
+    "&nbsp;&nbsp;(int)peak memory usage<br/>" .
+    "]]."
+);
+d::du(d::getCheckpoints(), "Checkpoints");
 
 //if (false === strpos($_SERVER['REQUEST_URI'], "?1")) {
 //  header("Location: http://deepeloper.home/subfolder/?1");

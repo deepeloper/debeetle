@@ -17,6 +17,11 @@ use deepeloper\Debeetle\Exception\NoInstanceException;
  * @method static dump($entity, $label = "", array $options = [])
  * @method static du($entity, $title = "", array $options = [])
  * @method static trace()
+ * @method static sb($label)
+ * @method static eb($label)
+ * @method static getBenchmarks()
+ * @method static cp($label, array $options = [])
+ * @method static getCheckpoints()
  */
 class d
 {
@@ -106,22 +111,6 @@ class d
             $instance->tab($id, $name, $places, $options);
         }
     }
-
-    /**
-     * Add checkpoint
-     *
-     * @param  string $name    Checkpoint name
-     * @param  string $tab     Target tab
-     * @param  bool   $unwrap  Unwrap checkpoints having same names
-     * @return void
-     * @see    Debeetle::checkpoint()
-     * @todo   Implement?
-     */
-/*
-    public function cp($name, $unwrap = false){
-        self::getInstance()->checkpoint($name, $tab, $unwrap);
-    }
-*/
 
     /**
      * @param  string $string   String to write

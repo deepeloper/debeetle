@@ -22,4 +22,5 @@ return [
     'tab-request' => "REQUEST",
     'tab-session' => "SESSION",
     'tab-server' => "SERVER",
+    'tab-benchmarks' => "Benchmarks",
 ];
