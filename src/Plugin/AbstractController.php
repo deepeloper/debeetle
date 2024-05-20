@@ -27,12 +27,18 @@ abstract class AbstractController implements ControllerInterface
     protected $settings;
 
     /**
+     * @var string
+     */
+    protected $id;
+
+    /**
      * Sets debeetle instance.
      *
      * @param DebeetleInterface $debeetle
+     * @param string $id
      * @return void
      */
-    public function setInstance(DebeetleInterface $debeetle)
+    public function setInstance(DebeetleInterface $debeetle, $id)
     {
         $this->debeetle = $debeetle;
         $this->settings = &$debeetle->getSettings();
@@ -44,6 +50,7 @@ abstract class AbstractController implements ControllerInterface
                     $this->settings['eol']
                 )
                 : PHP_EOL;
+        $this->id = $id;
     }
 
     /**
@@ -56,7 +63,7 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
-     * Processes separate request and returns data (stub).
+*     * Processes separate request and returns data (stub).
      *
      * @retun mixed
      */

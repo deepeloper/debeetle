@@ -23,9 +23,10 @@ interface ControllerInterface
      * Sets debeetle instance.
      *
      * @param DebeetleInterface $debeetle
+     * @param string $id
      * @return void
      */
-    public function setInstance(DebeetleInterface $debeetle);
+    public function setInstance(DebeetleInterface $debeetle, $id);
 
     /**
      * Initialize plugin.

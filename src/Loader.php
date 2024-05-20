@@ -125,12 +125,12 @@ class Loader
             } else {
                 $instance = new Debeetle($settings + $startup);
                 // Load plugins
-                foreach ($settings['plugin'] as $plugin) {
+                foreach ($settings['plugin'] as $id => $plugin) {
                     /**
                      * @var ControllerInterface $plugin
                      */
                     $plugin = new $plugin['class']();
-                    $plugin->setInstance($instance);
+                    $plugin->setInstance($instance, $id);
                     $plugin->init();
                 }
                 d::setInstance($instance);
