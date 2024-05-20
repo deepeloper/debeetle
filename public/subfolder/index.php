@@ -89,6 +89,8 @@ function highlight($code)
     d::w(highlight_string("<?php $code", true), ['htmlEntities' => false]);
 }
 
+d::t("examples|common");
+
 d::bs("examples");
 d::bs("examples");
 
