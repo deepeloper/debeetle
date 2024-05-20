@@ -295,7 +295,7 @@ $d.View =
     templates: {},
 
     /**
-     * Load templates from element
+     * Loads templates from element.
      *
      * @param  {HTMLElement} element
      * @param  {string=}     mode 'merge'|'add'|'set'
