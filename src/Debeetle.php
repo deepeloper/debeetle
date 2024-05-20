@@ -282,7 +282,9 @@ class Debeetle implements DebeetleInterface
             return;
         }
 
-        $this->startInternalBench();
+        if (empty($options['skipInternalBench'])) {
+            $this->startInternalBench();
+        }
 
         $caption = null;
         if (is_string($name)) {
@@ -301,7 +303,9 @@ class Debeetle implements DebeetleInterface
 
         $this->tab->select($id, $caption, $places);
 
-        $this->finishInternalBench();
+        if (empty($options['skipInternalBench'])) {
+            $this->finishInternalBench();
+        }
     }
 
     /**
