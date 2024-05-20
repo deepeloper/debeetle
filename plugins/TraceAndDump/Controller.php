@@ -95,7 +95,7 @@ class Controller extends AbstractController
     }
 
     /**
-     * Write trace to debug output
+     * Writes trace to debug output.
      *
      * @param  array  $trace    Array containing trace
      *                          (i.e. debug_backtrace() result)
