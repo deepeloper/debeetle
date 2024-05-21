@@ -14,7 +14,6 @@ if (empty($this)) {
 $d.Plugins.PHPInfo = {
   postStartup: function()
   {
-    c.log($d.data);///
     $('body').append(
       '<a id="id_phpinfo" style="display: none;" href="' +
       '<?= $settings['path']['script'] ?>?plugin=<?= rawurlencode($struct['plugin']['id']) ?>' +
