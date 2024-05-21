@@ -132,7 +132,7 @@ class Controller extends AbstractController
      * @param array $options  Supports 'storeData' key to force set storeData flag
      * @return void
      */
-    public function checkpoint($label, array $options)
+    public function checkpoint($label, array $options = [])
     {
         $storeData = isset($options['storeData']) ? $options['storeData'] : $this->storeData;
         if (isset($this->checkpoints[$label])) {
