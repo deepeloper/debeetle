@@ -66,7 +66,7 @@ class d
             if (empty($settings['deepeloperMode'])) {
                 return null;
             }
-            throw new NoInstanceException();
+            Loader::onError("No Debeetle instance", "NoInstanceException");
         }
         return self::$instance;
     }

@@ -16,8 +16,7 @@ use deepeloper\Debeetle\View\HTML;
 /**
  * Main Debeetle class.
  *
- * @todo Implement <dump labelTraceOffset="0" labelMaxCount="0" />
- * @todo Implement Debeetle::checkpoint() ? plugin?
+ * @todo Implement <dump labelTraceOffset="0" labelMaxCount="0" /> ?
  */
 class Debeetle implements DebeetleInterface
 {
@@ -180,7 +179,10 @@ class Debeetle implements DebeetleInterface
     {
         // Check if method is already registered
         if (!$override && isset($this->methods[$name])) {
-            throw new DuplicateMethodException("Method $name is already registered");
+            Loader::onError(
+                "Method $name is already registered",
+                "DuplicateMethodException"
+            );
         }
         // Collect plugins objects
         $this->plugins[get_class($handler[0])] = $handler[0];

@@ -6,11 +6,8 @@
  * @license [MIT](https://opensource.org/licenses/mit-license.php)
  */
 
-namespace deepeloper\Debeetle;
+namespace deepeloper\Debeetle\Exception;
 
-/**
- * @var array $settings
- */
-
-new Asset(__DIR__, $_GET, $settings);
-
+class InvalidDomDocumentSchemaException extends Exception
+{
+}

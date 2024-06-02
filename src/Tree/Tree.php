@@ -8,6 +8,7 @@
 
 namespace deepeloper\Debeetle\Tree;
 
+use deepeloper\Debeetle\Loader;
 use deepeloper\Debeetle\Tree\Exception\DifferentParts;
 use deepeloper\Debeetle\Tree\Exception\InvalidPlaceException;
 
@@ -110,6 +111,7 @@ class Tree
      * @param ?array $places Target places (f.e. ["before:tabId", "after:tabId", "start:tabId", "end:tabId", "anywhere"])
      * @param bool $active  Specifies tab activity
      * @return void
+     * @throws DifferentParts
      * @throws InvalidPlaceException  When cannot add tab at specified places, developer mode only.
      * @todo Remove $active argument?
      */
@@ -126,7 +128,10 @@ class Tree
         } else {
             $explodedCaption = explode("|", $caption);
             if (sizeof($explodedId) !== sizeof($explodedCaption)) {
-                throw new DifferentParts("$id -> $caption");
+                Loader::onError(
+                    "$id -> $caption",
+                    "DifferentParts"
+                );
             }
             foreach ($explodedId as $index => $partialId) {
                 $this->captions[$partialId] = $explodedCaption[$index];
@@ -223,7 +228,10 @@ class Tree
         }
         if ($this->developerMode) {
             $this->releasePointer(false);
-            throw new InvalidPlaceException("Cannot add tab '$id' to '$places'");
+            Loader::onError(
+                sprintf("DEBUG: Cannot add tab '$id' at '%s'", implode("/", $places)),
+                "InvalidPlaceException"
+            );
         } else {
             $this->setPointer($id, true, $active);
             $this->releasePointer(true);

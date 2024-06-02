@@ -48,11 +48,21 @@ debeetleFrame.style.zIndex = '19770404';
 $d = {
   onload: function(iframe)
   {
-    iframe.$d.startup(
-      <?= json_encode($data) ?>,
-      <?= $tabs ?>,
-      <?= $captions ?>
-    );
+    // console.log('iframe loaded');///
+    $(function() {
+      //console.log('timeout set to <?php //= $data['delayBeforeShowInBrowser'] ?>//');///
+      setTimeout(
+        function() {
+          // console.log('running...');///
+          iframe.$d.startup(
+              <?= json_encode($data) ?>,
+              <?= $tabs ?>,
+              <?= $captions ?>
+          );
+        },
+        <?= $data['delayBeforeShowInBrowser'] ?>
+      )
+    });
   }
 }
 

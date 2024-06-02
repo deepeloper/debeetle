@@ -1,4 +1,8 @@
-/* <?php __halt_compiler(); die; ?> */
+/* <?php __halt_compiler(); die; ?>
+
+ See "skel.config.xml.php" for parameters description.
+
+ */
 {
   "launch": true,
   "config": {
@@ -7,12 +11,13 @@
       "cookie": {
         "name": "debeetle",
         "path": "/",
-        "expires": 0 /* In seconds, 0 means during session */
+        "expires": 0
       },
+      "delayBeforeShowInBrowser": 0,
       "path": {
-        "assets": "E:/repos/deepeloper/debeetle/assets",
+        "assets": "/path/to/assets",
         "script": "/debeetle.php",
-        "root": "E:/repos/deepeloper/debeetle/public" /* Optional, root path used to cut it from trace paths */
+        "root": "/path/to/root"
       },
       "bench": {
         "serverTime": {
@@ -22,7 +27,7 @@
           "format": "%.03f",
           "warning": 0.7,
           "critical": 1,
-          "exclude": "scriptInit,debeetle",
+          "exclude": "debeetle",
         },
         "memoryUsage": {
           "format": "%.02f",
@@ -30,7 +35,7 @@
           "critical": 15,
           "divider": 1048576,
           "unit": "MB",
-          "exclude": "scriptInit,debeetle",
+          "exclude": "debeetle",
         },
         "peakMemoryUsage": {
           "format": "%.02f",
@@ -38,7 +43,7 @@
           "critical": 60,
           "divider": 1048576,
           "unit": "MB",
-          "exclude": "scriptInit,debeetle",
+          "exclude": "debeetle",
         },
         "includedFiles": {
           "warning": 100,
@@ -49,9 +54,9 @@
       "defaults": {
         "language": "en",
         "disabledPanelOpacity": 0.7,
-        "maxPanelHeight": 75, /* in percents of current window */
-        "skin": "ByDefault",
-        "theme": "ByDefault",
+        "maxPanelHeight": 0.75,
+        "skin": "deepeloper_default",
+        "theme": "deepeloper_default_default",
         "opacity": {
           "applyOnChange": true,
           "properties": {
@@ -92,7 +97,7 @@
         "use": true,
         "records": 20,
         "name": "history",
-        "storage": "session", /* session|cookie */
+        "storage": "session",
       },
 /*
       "disabled": {
@@ -107,7 +112,7 @@
           "class": "deepeloper\\Debeetle\\Skin\\ByDefault\\Controller",
           "name": {
             "en": "Default",
-            "ru": "Умолчанец",
+            "ru": "По умолчанию",
           },
           "assets": {
             "template": "skin.html",
@@ -195,19 +200,35 @@
                 "anywhere"
               ],
               "separateTabs": false,
-
-              /* PHP 5.4 E_ALL: 32767 */
               "errorReporting": 32767,
               "errorLevels": 32767,
-              /* date, report counter, level, message, file, line, backtrace */
               "template": "<div class=\"reports\">\n            <div class=\"message\">\n              <span class=\"date\">[ %s ]</span>\n              <span class=\"counter\">#%03d</span>\n              <span class=\"level level_%s\">[ %s ]\n                <span class=\"message\">%s at</span>\n                <span class=\"file\">%s</span>\n                <span class=\"line\">(%d)</span>\n              </span>\n            </div>\n            <code>%s</code>\n          </div>",
               "callPrevious": false
+            },
+          },
+        },
+        "deepeloper_behcnmarks": {
+          "use": true,
+          "onError": "E_USER_NOTICE",
+          "checkpoint": {
+            "storeData": true,
+          },
+          "class": "deepeloper\\Debeetle\\Plugin\\Benchmarks\\Controller",
+          "assets": {
+          },
+          "method": {
+            "startBenchmark": {
+            },
+            "endBenchmark": {
             },
           },
         }
       },
     },
     "deepeloper_local": {
+      "developerMode": false,
+      "debug": "E_USER_WARNING",
+      "disableCaching": false,
       "use": true,
       "limit": [
         {

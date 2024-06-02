@@ -14,15 +14,19 @@ Supports panel visibility for any conditions for `$_SERVER` / `$_COOKIE` / `$_SE
 ## Compatibility
 [![PHP 5.4](https://img.shields.io/badge/PHP->=5.4-%237A86B8)]()
 
-## Usage
-* Checkout repo containing stanalone usage example or run `composer require deepeloper/debeetle`;
-* Set up web server to allow to access to the "public" folder; 
-* Modify "config.xml.php":
-* * Set up "debeetle/config/path/assets" and "debeetle/config/path/root" nodes to your own paths;
-* * Optionally change "debeetle/config/defaults/language" node to "ru";
-* Change $debeetlePath in "public/debeetle.php" if needed;
-* Change $debeetlePath in "public/subfolder/index.php" if needed;
-* Open url "http://localhost/debeetle/subfolder/".
+## Live demo:
+https://deepelopment.free.nf/debeetle/
+
+## Installation
+* Run `composer require deepeloper/debeetle`;
+* Copy "skel.config.xml.php", "skel.config.json.php" and "debeetle.xsd" to your own appropriate place, then modify next nodes:
+    * "debeetle/config/path/assets" and "debeetle/config/path/root" (optional) to your own paths;
+    * Optionally change "debeetle/config/defaults/language" node to "ru";
+    * Modify rules in "debeetle/config(name='localhost').
+* Copy "public/debeetle.php" to appropriate public place;
+* Modify "debeetle/config/path/script" node;
+* Modify $autoloadPath and $autoloadPath in "debeetle.php";
+* See https://github.com/deepeloper/debeetle-example repo on the top and on the bottom of "public/path/to/page/index.php". 
 
 The configuration can be located either in the XML file or in the JSON file for acceleration and load reduction.
 

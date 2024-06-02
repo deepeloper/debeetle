@@ -9,19 +9,17 @@
 namespace deepeloper\Debeetle;
 
 use deepeloper\Debeetle\Exception\Exception;
+use deepeloper\Debeetle\Exception\InvalidDomDocumentSchemaException;
 use deepeloper\Debeetle\Exception\OutOfRangeException;
 use deepeloper\Debeetle\Exception\UnderflowException;
 use deepeloper\Debeetle\Plugin\ControllerInterface;
 use deepeloper\Lib\XML\Converter;
 use DOMDocument;
-use RuntimeException;
 
 /**
- * Debeetle service class
+ * Debeetle service class.
  *
- * Implements class autoload, config reading and initialization
- *
- * @package Debeetle
+ * Implements config reading and initialization.
  */
 class Loader
 {
@@ -64,6 +62,10 @@ class Loader
         $settings = static::mergeConfigs($settings);
         if (!isset($settings['defaults'])) {
             return;
+        }
+
+        if (!isset($settings['delayBeforeShowInBrowser'])) {
+            $settings['delayBeforeShowInBrowser'] = 0;
         }
 
 /*
@@ -151,15 +153,27 @@ class Loader
         return self::$settings;
     }
 
+    public static function onError($message = "", $exception = null)
+    {
+        if (!empty(self::$settings['debug'])) {
+            if ("exception" === self::$settings['debug']) {
+                throw new $exception($message);
+            } else {
+                trigger_error($message, constant(self::$settings['debug']));
+            }
+        }
+    }
+
     /**
      * Returns settings parsed from passed config array and XML config
      *
      * @return Logger
+     * @todo Do we need it?
      */
-    public static function getLogger()
-    {
-        return self::$logger;
-    }
+//    public static function getLogger()
+//    {
+//        return self::$logger;
+//    }
 
     protected static function loadJSONConfig(array $startup)
     {
@@ -176,6 +190,11 @@ class Loader
         return $settings;
     }
 
+    /**
+     * @param array $startup
+     * @return array|array[]
+     * @throws InvalidDomDocumentSchemaException
+     */
     protected static function loadXMLConfig(array $startup)
     {
         $xmlPath = $startup['config'];
@@ -208,8 +227,9 @@ class Loader
                     $message .= " on line $error->line";
                     $messages[] = $message;
                 }
-                throw new RuntimeException(
-                    "DOMDocument::schemaValidate() errors:<br>\n" . implode("<br>\n", $messages)
+                self::onError(
+                    "DOMDocument::schemaValidate() errors:<br>\n" . implode("<br>\n", $messages),
+                    "InvalidDomDocumentSchemaException"
                 );
             }
 
@@ -275,13 +295,19 @@ class Loader
 
         } catch (Exception $exception) {
             if (!empty($startup['developerMode'])) {
-                throw $exception;
+                self::onError($exception->getMessage(), et_class($exception));
             }
         }
 
         return $settings;
     }
 
+    /**
+     * @param array $settings
+     * @return array
+     * @throws OutOfRangeException
+     * @throws UnderflowException
+     */
     protected static function mergeConfigs(array $settings)
     {
         $limitAttributes = [
@@ -315,8 +341,9 @@ class Loader
                     if (array_key_exists($name, $limit)) {
                         $currentLimit[$name] = $limit[$name];
                     } else if ($obligatoriness) {
-                        throw new UnderflowException(
-                            "Missing obligatory element 'config/limit/$name'"
+                        self::onError(
+                            "Missing obligatory element 'config/limit/$name'",
+                            "UnderflowException"
                         );
                     }
                 }
@@ -340,8 +367,9 @@ class Loader
                         break; // foreach ($limits as $limit)
                     }
                 } else {
-                    throw new OutOfRangeException(
-                        "Invalid element 'config/limit/$name'"
+                    self::onError(
+                        "Invalid element 'config/limit/$name'",
+                        "OutOfRangeException"
                     );
                 }
             }

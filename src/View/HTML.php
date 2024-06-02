@@ -18,7 +18,7 @@ use DirectoryIterator;
  */
 class HTML implements ViewInterface
 {
-    const VERSION = "1.1.000";
+    const VERSION = "1.2.000";
 
     /**
      * Settings
@@ -177,6 +177,7 @@ class HTML implements ViewInterface
         $data = [
             'version' => urldecode($this->scope['version']),
             'cookie' => $this->settings['cookie'],
+            'delayBeforeShowInBrowser' => $this->settings['delayBeforeShowInBrowser'],
             'path' => $this->settings['path'],
             'defaults' => $this->settings['defaults'],
         ];

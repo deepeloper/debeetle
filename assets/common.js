@@ -863,10 +863,7 @@ $d.Panel =
         ts = `&ts=${Date.now()}`,
         skin = select.form.elements['skin'].value,
         theme = select.value,
-        dev =
-          document.location.href.replace(/^.*\?/, '').indexOf('&dev=1') < 0
-            ? ''
-            : '&dev=1';
+        dev = document.location.search.indexOf('&dev=1') < 0 ? '' : '&dev=1';
 
       let node = document.createElement('SCRIPT');
       node.setAttribute(
@@ -1034,7 +1031,7 @@ $d.Panel =
 
       const maxHeight =
         Math.floor(
-          (window.parent.innerHeight - offset) * $d.defaults.maxPanelHeight / 100
+          (window.parent.innerHeight - offset) * $d.defaults.maxPanelHeight
         ) + 'px';
       $('div.tab').css('max-height', 'none');
       $source.css({

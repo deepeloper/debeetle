@@ -13,6 +13,7 @@
   <xs:complexType name="configType">
     <xs:sequence>
       <xs:element name="cookie" type="cookieType" minOccurs="0"/>
+      <xs:element name="delayBeforeShowInBrowser" type="xs:integer" minOccurs="0"/>
       <xs:element name="path" type="pathType" minOccurs="0"/>
       <xs:element name="bench" type="benchType" minOccurs="0"/>
       <xs:element name="defaults" type="defaultsType" minOccurs="0"/>
@@ -25,6 +26,7 @@
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="use" type="xs:boolean" default="false"/>
     <xs:attribute name="developerMode" type="xs:boolean" default="false"/>
+    <xs:attribute name="debug" type="xs:string" default=""/>
     <xs:attribute name="disableCaching" type="xs:boolean" default="false"/>
   </xs:complexType>
 
@@ -58,7 +60,7 @@
     <xs:all>
       <xs:element name="language" type="xs:string"/>
       <xs:element name="disabledPanelOpacity" type="xs:float"/>
-      <xs:element name="maxPanelHeight" type="xs:unsignedInt"/>
+      <xs:element name="maxPanelHeight" type="xs:float"/>
       <xs:element name="skin" type="xs:string"/>
       <xs:element name="theme" type="xs:string"/>
       <xs:element name="opacity" type="opacityType"/>

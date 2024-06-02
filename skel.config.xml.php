@@ -5,33 +5,47 @@
     xsi:noNamespaceSchemaLocation="debeetle.xsd"
     launch="true"
 >
-<!-- xmlns:xi="http://www.w3.org/2001/XInclude" -->
 
   <config name="common" use="true">
 
     <cookie>
       <name>debeetle</name>
       <path>/</path>
+      <!-- In seconds, 0 means during session. -->
       <expires>0</expires>
     </cookie>
 
+    <!-- Some pages modifyes its content after DOM loaded. -->
+    <delayBeforeShowInBrowser>0</delayBeforeShowInBrowser>
+
     <path>
-      <assets>E:/repos/deepeloper/debeetle/assets</assets>
+      <!-- Absolute path to Debeetle "assets" folder. -->
+      <assets>/path/to/assets</assets>
+      <!-- Path to debeetle script relative to www root. -->
       <script>/debeetle.php</script>
-      <!-- optional, root path is used to cut it from trace paths -->
-      <root>E:/repos/deepeloper/debeetle/public</root>
+      <!-- optional, absolute www root path, used to cut it from trace paths. -->
+      <root>/path/to/root</root>
     </path>
 
     <bench>
 
       <serverTime>
+        <!-- See https://www.php.net/manual/en/datetime.format.php. -->
         <format>Y-m-d H:i:s P</format>
       </serverTime>
 
       <pageTotalTime>
+        <!-- See https://www.php.net/manual/en/function.sprintf.php. -->
         <format>%.03f</format>
+        <!-- Mark as warning if pageTotalTime greater than value. -->
         <warning>0.7</warning>
+        <!-- Mark as critical if pageTotalTime greater than value. -->
         <critical>1</critical>
+        <!--
+          * scriptInit: exclude time before PHP script start execution;
+          * debeetle: exclude time taken by Debeetle.
+          Separated by comma.
+        -->
         <exclude>scriptInit,debeetle</exclude>
       </pageTotalTime>
 
@@ -39,9 +53,10 @@
         <format>%.02f</format>
         <warning>10</warning>
         <critical>15</critical>
+        <!-- Devide memoryUsage by value. -->
         <divider>1048576</divider>
         <unit>MB</unit>
-        <exclude>scriptInit,debeetle</exclude>
+        <exclude>debeetle</exclude>
       </memoryUsage>
 
       <peakMemoryUsage>
@@ -50,12 +65,13 @@
         <critical>60</critical>
         <divider>1048576</divider>
         <unit>MB</unit>
-        <exclude>scriptInit,debeetle</exclude>
+        <exclude>debeetle</exclude>
       </peakMemoryUsage>
 
       <includedFiles>
         <warning>100</warning>
         <critical>120</critical>
+        <!-- debeetle: exclude Debeetle files. -->
         <exclude>debeetle</exclude>
       </includedFiles>
 
@@ -63,12 +79,13 @@
 
     <defaults>
 
+      <!-- Supports "en", "ru" for now. -->
       <language>en</language>
 
       <disabledPanelOpacity>0.7</disabledPanelOpacity>
 
-      <!-- Max panel height in percents of current window viewport -->
-      <maxPanelHeight>75</maxPanelHeight>
+      <!-- Max panel height koef from 0 to 1 of current window viewport. -->
+      <maxPanelHeight>0.75</maxPanelHeight>
 
       <skin>deepeloper_default</skin>
       <theme>deepeloper_default_default</theme>
@@ -82,7 +99,7 @@
           <parse>float</parse>
           <value>0.95</value>
         </properties>
-        <selector>~$d.frame</selector>
+        <selector>~$d.frame</selector><!-- Don't change. -->
       </opacity>
 
       <zoom>
@@ -94,14 +111,27 @@
           <parse>float</parse>
           <value>1</value>
         </properties>
-        <selector>div.bar</selector>
-        <selector>#dPanel</selector>
+        <selector>div.bar</selector><!-- Don't change. -->
+        <selector>#dPanel</selector><!-- Don't change. -->
       </zoom>
 
       <options>
         <write>
+          <!-- Page encoding, Debettle panel convert all to UTF-8 for output in the panel. -->
           <encoding>windows-1251</encoding>
+          <!--
+            Call https://www.php.net/manual/en/function.htmlentities.php in
+              * deepeloper\Debeetle\d::w(),
+              * deepeloper\Debeetle\Debeetle::write().
+            Can be overriden by passing $options.
+          -->
           <htmlEntities>true</htmlEntities>
+          <!--
+            Call https://www.php.net/manual/en/function.nl2br.php in
+              * deepeloper\Debeetle\d::w(),
+              * deepeloper\Debeetle\Debeetle::write().
+            Can be overriden by passing $options.
+          -->
           <nl2br>true</nl2br>
         </write>
       </options>
@@ -111,11 +141,14 @@
     <history use="true">
       <records>20</records>
       <name>history</name>
-      <!-- session/cookie -->
+      <!--
+        "session/cookie", used to store last history record if page redirected before
+         deepeloper\Debeetle\Debeetle::getView() called.
+      -->
       <storage>session</storage>
     </history>
-
-<!--    <disabled>
+<!--
+    <disabled>
       <tab>debeetle|about</tab>
     </disabled>
 -->
@@ -123,7 +156,7 @@
       <class>deepeloper\Debeetle\Skin\ByDefault\Controller</class>
       <name>
         <en>Default</en>
-        <ru>Умолчанец</ru>
+        <ru>По умолчанию</ru>
       </name>
       <assets>
         <template>skin.html</template>
@@ -157,8 +190,6 @@
         </assets>
       </theme>
     </skin>
-
-    <!--        <xi:include href="Plugin_TraceAndDump.xml.php"/>-->
 
     <plugin id="deepeloper_phpinfo" locale="true" use="true">
       <class>deepeloper\Debeetle\Plugin\PHPInfo\Controller</class>
@@ -202,7 +233,7 @@
         <place>anywhere</place>
         <separateTabs>false</separateTabs>
 
-        <!-- PHP 5.4 E_ALL: 32767 -->
+        <!-- E_ALL -->
         <errorReporting>32767</errorReporting>
         <errorLevels>32767</errorLevels>
 
@@ -247,8 +278,12 @@
 
   </config>
 
-  <config name="localhost" use="true">
-    <limit source="SERVER" key="REMOTE_ADDR" value="127.0.0.1" />
+  <!--
+    debug: E_USER_NOTICE/E_USER_WARNING/E_USER_ERROR/exception;
+    disableCaching: disable browser caching (JS/CSS).
+  -->
+  <config name="localhost" developerMode="false" debug="E_USER_WARNING" disableCaching="false" use="true">
+    <limit source="SERVER" key="REMOTE_ADDR" value="127.0.0.1"/>
   </config>
 
 </debeetle>
