@@ -235,9 +235,13 @@ class Loader
 
             $converter = new Converter();
 
+            $xsd = file_get_contents($xsdPath);
+            if (version_compare(phpversion(), "8.1", ">=")) {
+                $xsd = [$xsd];
+            }
             $settings = $converter->parse(
                 file_get_contents($xmlPath),
-                file_get_contents($xsdPath),
+                $xsd,
                 [
                     Converter::COLLAPSE_ATTRIBUTES => true,
                     Converter::COLLAPSE_CHILDREN => true,
