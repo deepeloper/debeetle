@@ -15,7 +15,7 @@ Supports panel visibility for any conditions for `$_SERVER` / `$_COOKIE` / `$_SE
 [![PHP 5.4](https://img.shields.io/badge/PHP->=5.4-%237A86B8)]()
 
 ## Live demo:
-https://deepelopment.free.nf/debeetle/
+https://deepelopment.free.nf/debeetle/path/to/page/
 
 ## Installation
 * Run `composer require deepeloper/debeetle`;
