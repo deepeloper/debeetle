@@ -85,7 +85,7 @@
       <disabledPanelOpacity>0.7</disabledPanelOpacity>
 
       <!-- Max panel height koef from 0 to 1 of current window viewport. -->
-      <maxPanelHeight>0.75</maxPanelHeight>
+      <maxPanelHeight>0.5</maxPanelHeight>
 
       <skin>deepeloper_default</skin>
       <theme>deepeloper_default_default</theme>

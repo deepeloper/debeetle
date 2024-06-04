@@ -54,7 +54,7 @@
       "defaults": {
         "language": "en",
         "disabledPanelOpacity": 0.7,
-        "maxPanelHeight": 0.75,
+        "maxPanelHeight": 0.5,
         "skin": "deepeloper_default",
         "theme": "deepeloper_default_default",
         "opacity": {
