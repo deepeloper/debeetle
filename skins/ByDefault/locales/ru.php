@@ -29,7 +29,7 @@ return [
     'url'             => "URL",
     'requestMethod'   => "Метод запроса",
     'clearHistory'    => "Очистить историю",
-    'developerMode'   => " &nbsp;&#128293;РЕЖИМ РАЗРАБОТЧИКА&#128293;",
+    'developerModeTooltip' => "Режим разработчика",
 
     // Tabs.
     'tab-includedFiles' => "Загруженные файлы",

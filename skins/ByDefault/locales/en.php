@@ -29,7 +29,8 @@ return [
     'url' => "URL",
     'requestMethod' => "Request method",
     'clearHistory' => "Clear history",
-    'developerMode' => " &nbsp;&#128293;DEVELOPER MODE&#128293;",
+    'developerMode' => " &#128293;",
+    'developerModeTooltip' => "Developer mode",
 
     // Tabs.
     'tab-debeetle' => "Debeetle",

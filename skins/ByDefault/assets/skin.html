@@ -13,18 +13,28 @@
 <table>
 <tbody>
 <tr>
-    <td class="selectionDisabled"><span onclick="$d.Panel.changePosition(this);" class="title-barToBottom changePosition">&nbsp;</span></td>
-    <td class="selectionDisabled"><span onclick="$d.Panel.toggleClientLaunch(this);" class="title-panelOff toggleClientLaunch">&equiv;</span></td>
-    <td onclick="$d.Panel.toggleVisibility(this);" class="title-panelHide info"><span title="" class="firstLevel">
-        <span class="title-serverTime"></span>
-        <span class="title-phpVersion"></span>
-        <span class="title-pageTotalTime"></span>
-        <span class="memoryUsage"><span class="title-memoryUsage"></span>&#10303;<span class="title-peakMemoryUsage"></span></span>
-        <span class="title-includedFiles"></span>
+    <td class="selectionDisabled"><span onclick="$d.Panel.changePosition(this);" class="title-barToBottom changePosition" tabindex="0">&nbsp;</span></td>
+    <td class="selectionDisabled"><span onclick="$d.Panel.toggleClientLaunch(this);" class="title-panelOff toggleClientLaunch" tabindex="0">&Theta;</span></td>
+    <td onclick="$d.Panel.toggleVisibility(this);" class="title-panelHide info" tabindex="0"><span title="" class="firstLevel">
+        <span class="title-serverTime" tabindex="0"></span>
+        <span class="title-phpVersion" tabindex="0"></span>
+        <span class="title-pageTotalTime" tabindex="0"></span>
+        <span class="memoryUsage"><span class="title-memoryUsage" tabindex="0"></span>&#10303;<span class="title-peakMemoryUsage" tabindex="0"></span></span>
+        <span class="title-includedFiles" tabindex="0"></span>
     </span></td>
     <td class="locale-reloadPage reloadPage"></td>
     <td class="splitter selectionDisabled"></td>
-    <td class="homepage"><a class="title-visitHomepage" href="https://github.com/deepeloper/debeetle" onmouseover="this.target = '_blank';" onclick="this.blur(); return true;">// Debeetle <span class="visibleVersion"></span> //</a><b id="developerMode" class="blink"></b></td>
+    <td class="homepage">
+        <span onclick="$d.Panel.toggleHomepageLink(this);" class="title-hide">&raquo;&raquo;</span>
+        <a
+          class="title-visitHomepage"
+          href="https://github.com/deepeloper/debeetle"
+          onmouseover="this.target = '_blank';"
+          onclick="this.blur(); return true;"
+          tabindex="0"
+        >Debeetle <span class="visibleVersion"></span></a>
+        <span id="developerMode" class="title-developerModeTooltip" tabindex="0"></span>
+    </td>
 </tr>
 </tbody>
 </table>

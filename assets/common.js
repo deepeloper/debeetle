@@ -440,6 +440,9 @@ $d.View.Container =
         $d.Panel.toggleClientLaunch($('.title-panelOff')[0]);
         $('.title-panelHide').hide();
       }
+      if ($d.state.hideHomepage) {
+        $d.Panel.toggleHomepageLink($('span.title-hide')[0]);
+      }
 
       if ($d.state.launch) {
         if ($d.state.tab) {
@@ -755,7 +758,7 @@ $d.Panel =
     },
 
     /**
-     * Toggle debugger launching
+     * Toggle debugger launching.
      *
      * @param  {HTMLElement} control
      */
@@ -766,7 +769,7 @@ $d.Panel =
 
       control.title =
         $d.View.Locale.get(this.launched ? 'panelOn' : 'panelOff');
-      $('#developerMode').toggleClass('blink');
+      // $('#developerMode').toggleClass('blink');
       $(infoCell).toggleClass('panel-visibility');
 
       if (this.launched) {
@@ -800,7 +803,24 @@ $d.Panel =
     },
 
     /**
-     * Toggle panel visibility
+     * Toggle homeoage link visibility.
+     *
+     * @param  {HTMLElement} control
+     */
+    toggleHomepageLink: function (control) {
+      if (this.storeState) {
+        $d.state.hideHomepage = !$d.state.hideHomepage;
+        $d.storeState('hideHomepage', $d.state.hideHomepage ? 1 : null);
+      }
+      control.title = $d.View.Locale.get($d.state.hideHomepage ? 'show' : 'hide');
+      control.innerHTML = $d.state.hideHomepage ? '&laquo;&laquo;' : '&raquo;&raquo;';
+      const $a = $('a.title-visitHomepage');
+      $d.state.hideHomepage ? $a.hide() : $a.show();
+      control.blur();
+    },
+
+    /**
+     * Toggle panel visibility.
      *
      * @param  {HTMLElement} cell
      * @return void
