@@ -56,6 +56,11 @@
         <!-- Devide memoryUsage by value. -->
         <divider>1048576</divider>
         <unit>MB</unit>
+        <!--
+          * scriptInit: exclude memory usage before PHP script start execution;
+          * debeetle: exclude memory usage taken by Debeetle.
+          Separated by comma.
+        -->
         <exclude>debeetle</exclude>
       </memoryUsage>
 
