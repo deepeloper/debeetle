@@ -173,11 +173,11 @@ switch ($part) {
 <?php
 // callback ?
 if (is_callable($entity)) {
-        $_ = array_values($entity);
-        ?>
+    $_ = array_values($entity);
+?>
         <span class="krumo-callback"> |
                 (<em class="krumo-type">callable</em>)
-                <strong class="krumo-string"><?= htmlSpecialChars($_[0]) ?>::<?= htmlSpecialChars($_[1]) ?>();</strong></span>
+                <strong class="krumo-string"><?= htmlspecialchars(is_object($_[0]) ? get_class($_[0]) : $_[0]) ?>::<?= htmlspecialchars($_[1]) ?>();</strong></span>
 <?php
 }
 ?>
