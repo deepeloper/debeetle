@@ -7,6 +7,10 @@
  */
 
 return [
+    'location' => "Расположение",
+    'caller' => "Вызывающий",
+    'arguments' => "Аргументы",
+
     'collapseDumps' => "&laquo;&laquo; Свернуть дампы",
     'expandDumps' => "Развернуть дампы &raquo;&raquo;",
     'collapseEntities' => "&laquo;&laquo; Свернуть сущности",

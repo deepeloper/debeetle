@@ -20,6 +20,7 @@ if (empty($this)) {
 /**
  * @var string $part
  * @var bool $even
+ * @var array $locales
  * @var string $label
  * @var array $trace
  * @var string $content
@@ -39,14 +40,6 @@ switch ($part) {
 
     case "settings":
 ?>
-<style>
-table.trace-and-dump-buttons td {
-    padding: 2px 4px;
-}
-table.trace-and-dump-buttons td.r {
-    text-align: right;
-}
-</style>
 <table class="trace-and-dump-buttons">
 <tr>
     <td><button id="dump-collapse" class="locale-collapseDumps" onclick="$d.Plugins.TraceAndDump.groupClick(this);"></button></td>
@@ -92,7 +85,7 @@ table.trace-and-dump-buttons td.r {
 ?>
 <table class="trace">
 <thead>
-    <tr><th>Location</th><th>Caller</th><?php if (!empty($options['displayArgs'])) { ?><th>Arguments</th><?php } ?></tr>
+    <tr><th><?= $locales['location'] ?></th><th><?= $locales['caller'] ?></th><?php if (!empty($options['displayArgs'])): ?><th><?= $locales['arguments'] ?></th><?php endif; ?></tr>
 </thead>
 <tbody>
 <?php

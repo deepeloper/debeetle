@@ -7,6 +7,10 @@
  */
 
 return [
+    'location' => "location",
+    'caller' => "Caller",
+    'arguments' => "Arguments",
+
     'tab-traceAndDump' => "Trace&apos;n&apos;Dump",
 
     'collapseDumps' => "&laquo;&laquo; Collapse dumps",
