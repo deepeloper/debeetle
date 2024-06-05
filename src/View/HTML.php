@@ -178,7 +178,7 @@ class HTML implements ViewInterface
             'version' => urldecode($this->scope['version']),
             'cookie' => $this->settings['cookie'],
             'delayBeforeShowInBrowser' => $this->settings['delayBeforeShowInBrowser'],
-            'path' => $this->settings['path'],
+            'path' => ['script' => $this->settings['path']['script']],
             'defaults' => $this->settings['defaults'],
         ];
 
