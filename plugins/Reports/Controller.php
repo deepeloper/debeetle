@@ -60,7 +60,10 @@ class Controller extends AbstractController
 
         $this->template = preg_replace("/ {2,}/", " ", html_entity_decode($options['template']));
 
+//        $this->debeetle->registerMethod("errorHandler", ["deepeloper\\Debeetle\\d", "errorHandler"]);
+
         error_reporting($options['errorReporting']);
+//        $previousHandler = set_error_handler(["deepeloper\\Debeetle\\d", "errorHandler"], $options['errorLevels']);
         $previousHandler = set_error_handler([$this, "errorHandler"], $options['errorLevels']);
         if ($options['callPrevious'] && null !== $previousHandler) {
             $this->previousHandler = $previousHandler;
@@ -92,7 +95,6 @@ class Controller extends AbstractController
                 break;
             }
         }
-        $e = new Exception();
         $message = sprintf(
             $this->template,
             date("Y-m-d H:i:s"),
@@ -103,20 +105,29 @@ class Controller extends AbstractController
                 trim($message),
                 ENT_QUOTES|ENT_SUBSTITUTE,
                 $this->settings['defaults']['options']['write']['encoding']
-            ),
+            )/*,
             str_replace("\\", "/", $file),
             $line,
             nl2br(str_replace(
                 "\\", "/", preg_replace("/^#0?.+\n/", "", $e->getTraceAsString())
-            ))
+            ))*/
         );
+        $e = new Exception();
+
+        if (null === $this->debeetle->getTrace()) {
+            $this->debeetle->setTrace(1);
+        }
         $tabId = $this->settings['defaults']['options']['errorHandler']['tabId'];
         $palces = $this->settings['defaults']['options']['errorHandler']['place'];
         if ($this->settings['defaults']['options']['errorHandler']['separateTabs']) {
             $tabId .= "|$level";
         }
-        $this->debeetle->tab($tabId, null, $palces, ['skipInternalBench' => true]);
-        $this->debeetle->write($message, ['skipInternalBench' => true, 'htmlEntities' => false, 'nl2br' => false]);
+        $this->debeetle->tab($tabId, null, $palces/*, ['skipInternalBench' => true]*/);
+        $this->debeetle->write($message, [/*'skipInternalBench' => true, */'htmlEntities' => false, 'nl2br' => false]);
+//        $this->debeetle->write(str_replace(
+//            "\\", "/", preg_replace("/^#0?.+\n/", "", $e->getTraceAsString())
+//        ));###
+        $this->debeetle->trace();
 
         if (null !== $this->previousHandler) {
             call_user_func_array($this->previousHandler, [$code, $message, $file, $line]);

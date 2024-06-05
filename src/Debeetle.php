@@ -16,7 +16,7 @@ use deepeloper\Debeetle\View\HTML;
 /**
  * Main Debeetle class.
  *
- * @todo Implement <dump labelTraceOffset="0" labelMaxCount="0" /> ?
+ * @todo Implement <dump labelTraceOffset="0" labelMaxCount="0"/> ?
  */
 class Debeetle implements DebeetleInterface
 {
@@ -79,7 +79,7 @@ class Debeetle implements DebeetleInterface
      *
      * @var ?array
      */
-    protected $trace;
+    protected $trace = null;
 
     /**
      * Internal benches
@@ -118,14 +118,28 @@ class Debeetle implements DebeetleInterface
      */
     public function __call($method, array $args)
     {
-        $this->startInternalBench();
         $result = null;
+
         if (isset($this->methods[$method])) {
+            $useIntarnalBenches =
+                !(
+                    null !== $this->methods[$method]['optionsArgIndex'] &&
+                    !empty($args[$this->methods[$method]['optionsArgIndex']]['skipInternalBench'])
+                );
+
+            if ($useIntarnalBenches) {
+                $this->startInternalBench();
+            }
+
             $this->setTrace(1);
-            $result = call_user_func_array($this->methods[$method], $args);
+            $result = call_user_func_array($this->methods[$method]['handler'], $args);
             $this->resetTrace();
+
+            if ($useIntarnalBenches) {
+                $this->finishInternalBench();
+            }
         }
-        $this->finishInternalBench();
+
         return $result;
     }
 
@@ -137,8 +151,11 @@ class Debeetle implements DebeetleInterface
      */
     public function setTrace($offset)
     {
-        if (!$this->trace) {
+        if (null === $this->trace) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            while (!isset($trace[$offset]['file']) && isset($trace[$offset])) {
+                $offset++;
+            }
             $this->trace = [
                 'file' => $trace[$offset]['file'],
                 'line' => $trace[$offset]['line']
@@ -171,11 +188,12 @@ class Debeetle implements DebeetleInterface
      *
      * @param string $name  Method name
      * @param callable $handler  Method handler
-     * @param bool $override  Override existent handler
+     * @param ?int $optionsArgIndex  $options argument index
+     * @param ?bool $override  Override existent handler
      * @return void
      * @throws DuplicateMethodException
      */
-    public function registerMethod($name, callable $handler, $override = false)
+    public function registerMethod($name, callable $handler, $optionsArgIndex = null, $override = false)
     {
         // Check if method is already registered
         if (!$override && isset($this->methods[$name])) {
@@ -185,8 +203,11 @@ class Debeetle implements DebeetleInterface
             );
         }
         // Collect plugins objects
-        $this->plugins[get_class($handler[0])] = $handler[0];
-        $this->methods[$name] = $handler;
+        $this->plugins[is_object($handler[0]) ? get_class($handler[0]) : $handler[0]] = $handler[0];
+        $this->methods[$name] =[
+            'handler' => $handler,
+            'optionsArgIndex' => $optionsArgIndex,
+        ];
     }
 
     /**
@@ -419,7 +440,7 @@ class Debeetle implements DebeetleInterface
          * Bench settings
          */
         $bench = $this->settings['bench'];
-        $omit =
+        $exclude =
             isset($bench[$type]['exclude'])
                 ? explode(',', $bench[$type]['exclude'])
                 : [];
@@ -435,40 +456,45 @@ class Debeetle implements DebeetleInterface
                     [
                         date($format, $iBench['scriptInitState'][$type])
                     ];
+
             case "phpVersion":
                 $value = sprintf("PHP %s", phpversion());
                 break;
+
             case "pageTotalTime":
-                $toOmit = $iBench['scriptInitState']['time'];
-                if (in_array('debeetle', $omit)) {
-                    $toOmit += $iBench['total']['time'];
+                $toExclude = $iBench['scriptInitState']['time'];
+                if (in_array('debeetle', $exclude)) {
+                    $toExclude += $iBench['total']['time'];
                 }
-                $value = microtime(true) - $toOmit;
+                $value = microtime(true) - $toExclude;
                 break;
+
             case "memoryUsage":
-                $toOmit = 0;
-                if (in_array('scriptInit', $omit)) {
-                    $toOmit += $iBench['scriptInitState'][$type];
+                $toExclude = 0;
+                if (in_array('scriptInit', $exclude)) {
+                    $toExclude += $iBench['scriptInitState'][$type];
                 }
-                if (in_array('debeetle', $omit)) {
-                    $toOmit += $iBench['total'][$type];
+                if (in_array('debeetle', $exclude)) {
+                    $toExclude += $iBench['total'][$type];
                 }
-                $value = memory_get_usage() - $toOmit;
+                $value = memory_get_usage() - $toExclude;
                 break;
+
             case "peakMemoryUsage":
                 if (function_exists('memory_get_peak_usage')) {
-                    $toOmit = 0;
-                    if (in_array('scriptInit', $omit)) {
-                        $toOmit += $iBench['scriptInitState'][$type];
+                    $toExclude = 0;
+                    if (in_array('scriptInit', $exclude)) {
+                        $toExclude += $iBench['scriptInitState'][$type];
                     }
-                    if (in_array('debeetle', $omit)) {
-                        $toOmit += $iBench['total'][$type];
+                    if (in_array('debeetle', $exclude)) {
+                        $toExclude += $iBench['total'][$type];
                     }
-                    $value = memory_get_peak_usage() - $toOmit;
+                    $value = memory_get_peak_usage() - $toExclude;
                 }
                 break;
+
             case "includedFiles":
-                $value = in_array('debeetle', $omit) ? $iBench['total'][$type] : sizeof(get_included_files());
+                $value = in_array('debeetle', $exclude) ? $iBench['total'][$type] : sizeof(get_included_files());
                 break;
         }
         $params =
@@ -597,6 +623,7 @@ class Debeetle implements DebeetleInterface
                 'peakMemoryUsage' => 0,
                 'includedFiles' => 0,
             ],
+            'calls' => [],
         ];
         unset($settings['scriptInitState'], $settings['initState']);
         $this->settings = $settings + ['disabledTabs' => []];
@@ -662,22 +689,24 @@ class Debeetle implements DebeetleInterface
     protected function startInternalBench()
     {
         $this->bench['total']['qty']++;
-        $this->bench['current'] = [
+        $this->bench['calls'][] = [
             'memoryUsage' => memory_get_usage(),
             'peakMemoryUsage' => $this->bench['pmu'] ? memory_get_peak_usage() : 0,
-            'time' => microtime(true)
+            'time' => microtime(true),
         ];
     }
 
     protected function finishInternalBench()
     {
-        $this->bench['total']['memoryUsage'] += (memory_get_usage() - $this->bench['current']['memoryUsage']);
-        if ($this->bench['pmu']) {
-            $this->bench['total']['peakMemoryUsage'] +=
-                $this->bench['pmu'] ? (memory_get_peak_usage() - $this->bench['current']['peakMemoryUsage']) : 0;
+        $current = array_pop($this->bench['calls']);
+        if (0 === sizeof($this->bench['calls'])) {
+            $this->bench['total']['includedFiles'] = sizeof($this->getExternalIncludedFiles());
+            $this->bench['total']['memoryUsage'] += (memory_get_usage() - $current['memoryUsage']);
+            if ($this->bench['pmu']) {
+                $this->bench['total']['peakMemoryUsage'] +=
+                    $this->bench['pmu'] ? (memory_get_peak_usage() - $current['peakMemoryUsage']) : 0;
+            }
+            $this->bench['total']['time'] += (microtime(true) - $current['time']);
         }
-        $this->bench['total']['time'] += (microtime(true) - $this->bench['current']['time']);
-        $this->bench['total']['includedFiles'] = sizeof($this->getExternalIncludedFiles());
-        unset($this->bench['current']);
     }
 }

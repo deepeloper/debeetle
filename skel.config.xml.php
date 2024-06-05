@@ -269,13 +269,29 @@
       "E_USER_NOTICE/E_USER_WARNING/E_USER_ERROR"
       -->
       <onError>E_USER_NOTICE</onError>
+
       <!-- Flag specifying to store delays between calls of checkpoint, memory usage / peak memory usage. -->
       <checkpoint storeData="true"/>
 
       <class>deepeloper\Debeetle\Plugin\Benchmarks\Controller</class>
       <assets/>
 
-      <method name="startBenchmark"/>
+      <method name="startBenchmark">
+        <exclude>
+          <!--
+            Optional.
+            * debeetle: exclude time taken by Debeetle.
+          -->
+          <time>debeetle</time>
+          <!--
+            * scriptInit: exclude memory usage before PHP script start execution;
+            * debeetle: exclude memory usage taken by Debeetle.
+            Separated by comma.
+          -->
+          <memoryUsage>scriptInit,debeetle</memoryUsage>
+          <peakMemoryUsage>scriptInit,debeetle</peakMemoryUsage>
+        </exclude>
+      </method>
 
       <method name="endBenchmark"/>
 

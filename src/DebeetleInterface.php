@@ -51,10 +51,11 @@ interface DebeetleInterface
      *
      * @param string $name  Method name
      * @param callable $handler  Method handler
-     * @param bool $override  Override existent handler
+     * @param ?int $optionsArgIndex $options argument index
+     * @param ?bool $override  Override existent handler
      * @return void
      */
-    public function registerMethod($name, callable $handler, $override = false);
+    public function registerMethod($name, callable $handler, $optionsArgIndex = null, $override = false);
 
     /**
      * Calls passed method of each registered plugin.

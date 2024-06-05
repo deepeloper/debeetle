@@ -65,9 +65,9 @@ class Controller extends AbstractController
 
         $this->templatePath = self::getPath() . "/templates/krumo.php";
         foreach (['trace', 'dump', 'vd', 'pr', 've', 'zv'] as $method) {
-            $this->debeetle->registerMethod($method, [$this, $method]);
+            $this->debeetle->registerMethod($method, [$this, $method], 2);
         }
-        $this->debeetle->registerMethod('du', [$this, 'dump']);
+        $this->debeetle->registerMethod('du', [$this, 'dump'], 2);
     }
 
     /**
@@ -97,27 +97,24 @@ class Controller extends AbstractController
     /**
      * Writes trace to debug output.
      *
-     * @param  array  $trace    Array containing trace
-     *                          (i.e. debug_backtrace() result)
-     * @param  string $label    Label
-     * @param  array  $options  Reserved array for functionality enhancement
+     * @param ?array $trace  Array containing trace
+     *                       (i.e. debug_backtrace() result)
+     * @param ?string $label  Label
+     * @param ?array $options  Reserved array for functionality enhancement
      * @return void
      */
-    public function trace(
-            array $trace = null,
-            $label = '',
-            array $options = []
-    )
+    public function trace(array $trace = null, $label = '', array $options = [])
     {
-        if (
-            $label !== '' &&
-            !$this->debeetle->checkLabel('trace', $label, $options)
-        ) {
+        if ($label !== "" && !$this->debeetle->checkLabel("trace", $label, $options)) {
             return;
         }
         if (isset($this->settings['defaults']['options']['trace'])) {
             $options += $this->settings['defaults']['options']['trace'];
         }
+//        echo "<pre>"; var_dump($this->debeetle->getTrace()); echo "</pre>";###
+//        if (null === $this->debeetle->getTrace()) {
+//            $this->debeetle->setTrace(2);
+//        }
         $this->debeetle->write(
             $this->renderTrace(
                 $trace,
@@ -306,21 +303,18 @@ class Controller extends AbstractController
     }
 
     /**
-     * Render trace
+     * Renders trace.
      *
-     * @param  array  $trace   Trace array
-     * @param  array  $options  Reserved array for functionality enhancement
+     * @param ?array $trace  Trace array
+     * @param ?array $options  Reserved array for functionality enhancement
      * @return string
-     * @see    Debeetle::trace()
-     * @todo   Several transforms
+     * @see Debeetle::trace()
+     * @todo Several transforms?
      */
     protected function renderTrace(array $trace = null, array $options = [])
     {
         if (is_null($trace)) {
-            if (
-                empty($options['displayArgs']) &&
-                version_compare('5.3.6', PHP_VERSION, '>=')
-            ) {
+            if (empty($options['displayArgs'])) {
                 $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             } else {
                 $trace = debug_backtrace();
@@ -342,17 +336,17 @@ class Controller extends AbstractController
                 }
             }
         } else {
-            $start =
-                isset($options['traceOffset']) ? $options['traceOffset'] : 0;
+            $start = isset($options['traceOffset']) ? $options['traceOffset'] : 0;
         }
 
         $dumpOptions =
             isset($this->settings['defaults']['options']['dump'])
             ? $this->settings['defaults']['options']['dump']
             : [];
+        $locales = $this->settings['locales'];
 
         ob_start();
-        $part = 'header:trace';
+        $part = "header:trace";
         require $this->templatePath;
         $content = ob_get_clean();
         $even = false;

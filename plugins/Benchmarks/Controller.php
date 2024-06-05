@@ -25,6 +25,8 @@ class Controller extends AbstractController
      */
     const VERSION = "1.0.0";
 
+    protected $exclude = [];
+
     protected $onError = "";
 
     protected $benchmarks = [];
@@ -67,14 +69,24 @@ class Controller extends AbstractController
             $this->storeData = true;
         }
 
+        if (isset($options['method']['startBenchmark']['exclude'])) {
+            foreach (["time", "memoryUsage", "peakMemoryUsage"] as $type) {
+                $this->exclude[$type] =
+                    isset($options['method']['startBenchmark']['exclude'][$type])
+                        ? explode(',', $options['method']['startBenchmark']['exclude'][$type])
+                        : [];
+            }
+        }
+
         foreach ([
-                     'startBenchmark' => "bs",
-                     'endBenchmark' => "be",
-                     'getBenchmarks' => "getBenchmarks",
-                     'checkpoint' => "cp",
-                     'getCheckpoints' => "getCheckpoints",
+                     'startBenchmark' => ["bs"],
+                     'endBenchmark' => ["be"],
+                     'getBenchmarks' => ["getBenchmarks"],
+                     'checkpoint' => ["cp", 1],
+                     'getCheckpoints' => ["getCheckpoints"],
                  ] as $method => $shortcut) {
-            $this->debeetle->registerMethod($shortcut, [$this, $method]);
+            $optionsArgIndex = isset($shortcut[1]) ? $shortcut[1] : null;
+            $this->debeetle->registerMethod($shortcut[0], [$this, $method], $optionsArgIndex);
         }
     }
 
@@ -98,6 +110,10 @@ class Controller extends AbstractController
                 'started' => microtime(true),
             ];
         }
+        if (in_array("debeetle", $this->exclude['time'])) {
+            $internal = $this->debeetle->getInternalBenches();
+            $this->benchmarks[$label]['internalTime'] = $internal['total']['time'];
+        }
     }
 
     /**
@@ -113,12 +129,17 @@ class Controller extends AbstractController
             return $this->onError("Ending not started benchmark '$label'");
         }
         $this->benchmarks[$label]['total'] += (microtime(true) - $this->benchmarks[$label]['started']);
-        unset($this->benchmarks[$label]['started']);
+        if (in_array("debeetle", $this->exclude['time'])) {
+            $internal = $this->debeetle->getInternalBenches();
+            $this->benchmarks[$label]['total'] -=
+                ($internal['total']['time'] - $this->benchmarks[$label]['internalTime']);
+        }
+        unset($this->benchmarks[$label]['started'], $this->benchmarks[$label]['internalTime']);
     }
 
     /**
      * Returns array containing bechmarks labels as keys and array
-     * ['count' => (int)count of calls, 'total' => (double)total time].
+     * ['count' => (int) count of calls, 'total' => (double) total time].
      *
      * @return array
      */
@@ -135,22 +156,23 @@ class Controller extends AbstractController
     public function checkpoint($label, array $options = [])
     {
         $storeData = isset($options['storeData']) ? $options['storeData'] : $this->storeData;
+        $internal = $this->debeetle->getInternalBenches();
+
         if (isset($this->checkpoints[$label])) {
             if ($storeData) {
                 if (!isset($this->checkpoints[$label]['data'])) {
                     $this->onError("Checkpoint called without previous call");
                 }
                 $time = microtime(true);
-                $this->checkpoints[$label]['data'][sizeof($this->checkpoints[$label]['data']) - 1][0] =
-                    $time - $this->checkpoints[$label]['time'];
-                $data = [
-                    0,
-                    memory_get_usage(),
-                ];
-                if (function_exists("memory_get_peak_usage")) {
-                    $data[] = memory_get_peak_usage();
+                $prevIndex = sizeof($this->checkpoints[$label]['data']) - 1;
+                $data = $this->checkpoints[$label]['data'][$prevIndex];
+                $data['timeToNext'] = $time - $this->checkpoints[$label]['time'];
+                if (in_array("debeetle", $this->exclude['time'])) {
+                    $data['timeToNext'] -= ($internal['total']['time'] - $data['internalTime']);
+                    unset($data['internalTime']);
                 }
-                $this->checkpoints[$label]['data'][] = $data;
+                $this->checkpoints[$label]['data'][$prevIndex] = $data;
+                $this->addCheckpintData($label, $internal);
                 $this->checkpoints[$label]['time'] = $time;
             }
             $this->checkpoints[$label]['count']++;
@@ -158,24 +180,17 @@ class Controller extends AbstractController
             $this->checkpoints[$label] = ['count' => 1];
             if ($storeData) {
                 $this->checkpoints[$label]['time'] = microtime(true);
-                $data = [
-                    0,
-                    memory_get_usage(),
-                ];
-                if (function_exists("memory_get_peak_usage")) {
-                    $data[] = memory_get_peak_usage();
-                }
-                $this->checkpoints[$label]['data'][] = $data;
+                $this->addCheckpintData($label, $internal);
             }
         }
     }
 
     /**
      * Returns array containing checkpoints labels as keys and array
-     * ['count' => (int)count of calls, 'data' (if storeData is true) => [
-     *   (double)time to the next call,
-     *   (int)memory usage,
-     *   (int)peak memory usage
+     * ['count' => (int) count of calls, 'data' (if storeData is true) => [
+     *   (double) time to the next call,
+     *   (int) memory usage,
+     *   (int) peak memory usage
      * ]].
      *
      * @return array
@@ -183,6 +198,31 @@ class Controller extends AbstractController
     public function getCheckpoints()
     {
         return $this->checkpoints;
+    }
+
+    protected function addCheckpintData($label, array $internal)
+    {
+        $data = [
+            'timeToNext' => 0,
+            'memoryUsage' => memory_get_usage(),
+        ];
+        if ($internal['pmu']) {
+            $data['peakMemoryUsage'] = memory_get_peak_usage();
+        }
+        if (in_array("debeetle", $this->exclude['time'])) {
+            $data['internalTime'] = $internal['total']['time'];
+        }
+        foreach (["memoryUsage", "peakMemoryUsage"] as $type) {
+            foreach ([
+                         'scriptInit' => "scriptInitState",
+                         'debeetle' => "total",
+                     ] as $exclusion => $target) {
+                if (in_array($exclusion, $this->exclude[$type])) {
+                    $data[$type] -= $internal[$target]['memoryUsage'];
+                }
+            }
+        }
+        $this->checkpoints[$label]['data'][] = $data;
     }
 
     protected function onError($message)
