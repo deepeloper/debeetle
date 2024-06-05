@@ -665,6 +665,7 @@ $d.View.Container =
         content += $d.View.parse(
           'tabList',
           {
+            even: level % 2 ? '' : ' even',
             level: level,
             postfix: postfix,
             controls: controls,
@@ -1005,7 +1006,7 @@ $d.Panel =
           for (const i in buttons) {
             button.form.elements[buttons[i]].value =
               $d.state[buttons[i]];
-          }
+            }
           this.onSelectSkin(button.form.elements['skin']);
           this.highlightSettings(button.form);
           break; // case 'settings'

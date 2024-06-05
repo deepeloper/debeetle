@@ -246,7 +246,10 @@ ul.tabs li.a {
 ul.tabs li.a span {
   font-weight: bold;
   height: 5px;
-  border-bottom: 1px dashed #000;
+}
+
+ul.tabs.even li.a span {
+  border-bottom: 1px dashed @content-color;
 }
 
 ul.tabs li.a div {
