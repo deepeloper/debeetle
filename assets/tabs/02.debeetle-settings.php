@@ -20,8 +20,8 @@
         <input
           id="opacity"
           name="opacity"
-          onchange="return $d.Panel.validateParameter(this);"
-          onblur="return $d.Panel.validateParameter(this);"
+          onchange="return $d.Panel.validateParameter(this, false);"
+          onblur="return $d.Panel.validateParameter(this, false);"
           required
         />
       </td>
@@ -32,16 +32,17 @@
         <input
           id="zoom"
           name="zoom"
-          onchange="return $d.Panel.validateParameter(this);"
-          onblur="return $d.Panel.validateParameter(this);"
+          onchange="return $d.Panel.validateParameter(this, false);"
+          onblur="return $d.Panel.validateParameter(this, false);"
           required
         />
       </td>
     </tr>
     <tr>
       <td colspan="2" class="buttons">
-        <button onclick="return $d.Panel.saveSettings(this);" class="locale-apply"></button> &nbsp; &nbsp; &nbsp;
-        <button onclick="return $d.Panel.resetSettings(this);" class="locale-discard"></button>
+        <button onclick="return $d.Panel.saveSettings(this);" class="locale-apply"></button> &nbsp;
+        <button onclick="return $d.Panel.discardSettings(this, 'state');" class="locale-discard"></button> &nbsp;
+        <button onclick="return $d.Panel.discardSettings(this, 'defaults');" class="locale-defaults"></button>
       </td>
     </tr>
     </tbody>

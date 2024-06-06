@@ -858,6 +858,10 @@ $d.Panel =
       $d.storeState('visible', this.visible ? 1 : null, true);
     },
 
+    /**
+     * @param {HTMLElement} skin
+     * @param {string} [forceTheme]
+     */
     onSelectSkin: function (skin, forceTheme) {
       const theme = skin.form.elements['theme'];
       theme.length = 0;
@@ -938,7 +942,7 @@ $d.Panel =
           $option.prop(property, config.properties[property]);
         }
       }
-      if ('string' === typeof (config.selector)) {
+      if ('string' === typeof(config.selector)) {
         config.selector = [config.selector];
       }
       for (let selector of config.selector) {
@@ -952,9 +956,10 @@ $d.Panel =
 
     /**
      * @param {HTMLElement} element
+     * @param {boolean} setState [true]
      * @return {boolean}
      */
-    validateParameter: function (element) {
+    validateParameter: function (element, setState) {
       const config = $d.data.defaults[element.name];
       let value = element.value;
 
@@ -972,8 +977,10 @@ $d.Panel =
           return false;
         }
       }
-      $d.state[element.name] = value;
-      if ("undefined" !== typeof config.applyOnChange && config.applyOnChange) {
+      if ("undefined" === typeof(setState) || setState) {
+        $d.state[element.name] = value;
+      }
+      if ("undefined" !== typeof(config.applyOnChange) && config.applyOnChange) {
         this.applyParameter(element.name, value);
       }
 
@@ -1000,19 +1007,44 @@ $d.Panel =
       return false;
     },
 
-    resetSettings: function (button) {
+    /**
+     * @param {HTMLElement} button
+     * @param {string} source
+     * @returns {boolean}
+     */
+    discardSettings: function (button, source) {
       const form = button.form;
 
       switch (form.name) {
         case 'settings':
           const fields = ['skin', 'theme', 'opacity', 'zoom'];
-          for (const name in fields) {
-            button.form.elements[fields[name]].value = $d.state[fields[name]];
+          for (const name of fields) {
+            const storedValueType = typeof($d[source][name]);
+            if ('undefined' !== storedValueType) {
+              let storedValue = $d[source][name];
+              if ('object' === storedValueType) {
+                storedValue = storedValue.properties.value;
+              }
+              if (form.elements[name].value !== storedValue) {
+                form.elements[name].value = storedValue;
+                switch (name) {
+                  case 'skin':
+                    this.onSelectSkin(form.elements['skin']);
+                    break;
+                  case 'theme':
+                    this.onSelectSkin(form.elements['skin'], storedValue);
+                    break;
+                  case 'opacity':
+                  case 'zoom':
+                    this.applyParameter(name, storedValue);
+                    break;
+                }
+              }
+            }
           }
-          this.onSelectSkin(button.form.elements['skin'], true);
-          this.highlightSettings(button.form);
+          this.highlightSettings(form);
           break; // case 'settings'
-
+/*
         case 'tabSettings':
           $('input[type="checkbox"]', form).each(
             function () {
@@ -1028,6 +1060,7 @@ $d.Panel =
           );
           alert('Reload page to view changes.');
           break; // case 'tabSettings'
+*/
       }
 
       return false;

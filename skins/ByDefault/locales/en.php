@@ -49,6 +49,7 @@ return [
     'panelZoom' => "Panel zoom:",
     'apply' => "Apply",
     'discard' => "Discard",
+    'defaults' => "Defaults",
 
     'tab-plugins' => "Plugins",
 ];

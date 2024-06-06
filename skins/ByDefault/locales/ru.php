@@ -47,6 +47,7 @@ return [
     'panelZoom' => "Увеличение панели:",
     'apply' => "Применить",
     'discard' => "Отменить",
+    'defaults' => "По умолчанию",
 
     'tab-plugins' => "Плагины",
 ] + require __DIR__ . "/en.php";
