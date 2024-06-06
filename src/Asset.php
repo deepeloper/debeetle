@@ -67,18 +67,23 @@ class Asset
     private function getFiles($path, array $request)
     {
         $files = [];
-        $skinPath = call_user_func(
-            [
-                $this->settings['skin'][$request['skin']]['class'],
-                "getPath"
-            ]
-        );
-        $themePath = call_user_func(
-            [
-                $this->settings['skin'][$request['skin']]['theme'][$request['theme']]['class'],
-                "getPath"
-            ]
-        );
+        if (
+            !isset($this->settings['skin'][$request['skin']]['class']) ||
+            !class_exists($this->settings['skin'][$request['skin']]['class'])
+        ) {
+            $this->sendError(sprintf("Invalid skin '%s'", $request['skin']));
+        }
+        if (
+            !isset($this->settings['skin'][$request['skin']]['theme'][$request['theme']]) ||
+            !class_exists($this->settings['skin'][$request['skin']]['theme'][$request['theme']]['class'])
+        ) {
+            $this->sendError(sprintf("Invalid theme '%s' of skin '%s'", $request['theme'], $request['skin']));
+        }
+        $skinPath = call_user_func([$this->settings['skin'][$request['skin']]['class'], "getPath"]);
+        $themePath = call_user_func([
+            $this->settings['skin'][$request['skin']]['theme'][$request['theme']]['class'],
+            "getPath"
+        ]);
 
         switch ($request['type']) {
             case "lessJs":
@@ -202,20 +207,13 @@ class Asset
      * @return void
      * @exitpoint            In case of troubles with path
      */
-    private function validateFiles($files)
+    protected function validateFiles($files)
     {
         foreach ($files as $struct) {
-            if (
-                $struct['required'] && (
-                    !is_file($struct['path']) ||
-                    !is_readable($struct['path'])
-                )
-            ) {
-                $this->send404Header(
-                    sprintf(
-                        "Required file '%s' not found or cannot be read",
-                        $struct['path']
-                    )
+            if ($struct['required'] && (!is_file($struct['path']) ||!is_readable($struct['path']))) {
+                $this->sendError(
+                    sprintf("Required file '%s' not found or cannot be read", $struct['path']),
+                    "404 Not Found"
                 );
             }
         }
@@ -226,21 +224,21 @@ class Asset
      * @return void
      * @exitpoint
      */
-    private function send404Header($reason = "")
+    protected function sendError($reason = "", $status = "400 Bad Request")
     {
-        $protocol = @getenv('SERVER_PROTOCOL');
+        $protocol = @getenv("SERVER_PROTOCOL");
         if (!$protocol) {
-            $protocol = 'HTTP/1.1';
+            $protocol = "HTTP/1.1";
         }
-        header("$protocol 404 Not Found");
-        if (empty($this->settings['developerMode'])) {
-            die;
-        } else {
-            die($reason);
+        $protocol = "HTTP/1.0";
+        header("$protocol $status");
+        if (!empty($this->settings['developerMode'])) {
+            echo $reason;
         }
+        die;
     }
 
-    private function convertStringCallback(&$string)
+    protected function convertStringCallback(&$string)
     {
         $string = $this->convertStringToJS($string);
     }
@@ -250,7 +248,7 @@ class Asset
      * @return string
      * @todo Try ro extract this method to the common library?
      */
-    private function convertStringToJS($string)
+    protected function convertStringToJS($string)
     {
         return
             "'" .
