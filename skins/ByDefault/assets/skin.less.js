@@ -1,6 +1,10 @@
-const params = new URLSearchParams(document.location.search.replace(/^\?/, ''));
+const
+  params = new URLSearchParams(document.location.search.replace(/^\?/, '')),
+  env = params.has('dev') || params.get('v').match(/\./g).length > 2
+    ? 'development'
+    : 'production';
 less = {
-    env: params.has('dev') < 0 && params.get('v').match(/\./g).length < 3 ? 'production' : 'development',
+    env: env,
     logLevel: 2,
     async: false,
     fileAsync: false,
