@@ -1,6 +1,6 @@
 less.globalVars = {
   'content-color': '#000',
-  'bg-color': '#D4D4C8',
+  'bg-color': '#D4D0C8',
   'bg-lite-color': '#EBEBDB',
   'bg-halflite-color': '#DCDCD0',
   'bg-dark-color': '#A0A088',
