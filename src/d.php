@@ -28,9 +28,9 @@ class d
     /**
      * Instance
      *
-     * @var Debeetle
+     * @var ?Debeetle
      */
-    protected static $instance;
+    protected static $instance = null;
 
     /**
      * @var bool
