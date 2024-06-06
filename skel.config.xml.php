@@ -174,8 +174,8 @@
       <theme id="deepeloper_default_default" use="true">
         <class>deepeloper\Debeetle\Skin\ByDefault\Theme\ByDefault\Controller</class>
         <name>
-          <en>Default</en>
-          <ru>Стандартная</ru>
+          <en>Windows 2000</en>
+          <ru>Windows 2000</ru>
         </name>
         <assets>
           <lessJs>theme.less.js.php</lessJs>
