@@ -243,6 +243,7 @@ var $d = {
       delete this.state[index];
     }
     const options = {
+      SameSite: 'Strict',
       path: this.data.cookie.path,
     };
     if (this.data.cookie.expires > 0) {
@@ -1004,12 +1005,11 @@ $d.Panel =
 
       switch (form.name) {
         case 'settings':
-          const buttons = ['skin', 'theme', 'opacity'];
-          for (const i in buttons) {
-            button.form.elements[buttons[i]].value =
-              $d.state[buttons[i]];
-            }
-          this.onSelectSkin(button.form.elements['skin']);
+          const fields = ['skin', 'theme', 'opacity', 'zoom'];
+          for (const name in fields) {
+            button.form.elements[fields[name]].value = $d.state[fields[name]];
+          }
+          this.onSelectSkin(button.form.elements['skin'], true);
           this.highlightSettings(button.form);
           break; // case 'settings'
 
