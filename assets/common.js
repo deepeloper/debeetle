@@ -436,6 +436,7 @@ $d.View.Container =
         $d.launched = true;
         const $info = $('.info', $d.container);
         $info.addClass('panel-visibility');
+        $('span.toggleClientLaunch').html('&starf;');
       } else {
         $d.Panel.toggleClientLaunch($('.title-panelOff')[0]);
         $('.title-panelHide').hide();
@@ -469,6 +470,8 @@ $d.View.Container =
 
       if ($d.launched) {
         this.displayHistory();
+      } else if ('undefined' !== typeof($d.state.zoom) && 1 != $d.state.zoom) {
+        $('div.bar').css('zoom', $d.state.zoom);
       }
 
       if (document.forms['settings']) {
@@ -497,7 +500,6 @@ $d.View.Container =
 
       $($d.container).visible();
       $($d.container).show();
-
       if (null !== $d.Panel.Tab.lastTab) {
         $d.Panel.fixHeight($d.Panel.Tab.lastTab);
       }
@@ -768,8 +770,8 @@ $d.Panel =
         infoCell = $('.info', $d.container)[0],
         opacity = $d.state.opacity || $d.defaults.opacity;
 
-      control.title =
-        $d.View.Locale.get(this.launched ? 'panelOn' : 'panelOff');
+      control.title = $d.View.Locale.get(this.launched ? 'panelOn' : 'panelOff');
+      control.innerHTML = this.launched ? '&star;' : '&starf;';
       // $('#developerMode').toggleClass('blink');
       $(infoCell).toggleClass('panel-visibility');
 
