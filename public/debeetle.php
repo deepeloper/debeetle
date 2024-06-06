@@ -13,11 +13,10 @@ namespace deepeloper\Debeetle;
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-// SET UP PATH TO "autoload.php"
-$autoloadPath = realpath("./../vendor/autoload.php");
-//$autoloadPath = realpath("./../../debeetle/vendor/autoload.php");
-// SET UP PATH TO Debeetle XML/JSON (JSON parses faster) config
-$configPath = realpath("./config.xml.php");
+// SET UP PATH to "autoload.php".
+$autoloadPath = realpath("path/to/autpload");
+// SET UP PATH to Debeetle XML/JSON (JSON parses faster) config.
+$configPath = realpath("path/to/xml/or/json/config");
 require_once $autoloadPath;
 
 new PublicAsset($configPath, $_GET);
