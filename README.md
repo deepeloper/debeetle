@@ -103,7 +103,7 @@ Click to show the panel:
 
 Click to hide the panel, trace &amp; dumping object:
 
-![Click to hide the panel, trace &amp; dumping object](https://deepeloper.github.io/debeetle-media/images/.png)
+![Click to hide the panel, trace &amp; dumping object](https://deepeloper.github.io/debeetle-media/images/17.png)
 
 Backslashed tab name\:
 
