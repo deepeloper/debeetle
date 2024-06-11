@@ -37,46 +37,106 @@ See <plugin/> nodes in "config.xml.php" and pluginType in "debeetle.xsd" and "pl
 See <skin/> nodes in "config.xml.php" and skinType/themeType in "debeetle.xsd" and "skins" folder for examples.
 
 ---
-Dumping object:
+Disabled panel:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/01.png)
+![Disabled panel](https://deepeloper.github.io/debeetle-media/images/01.png?1)
 
-Nested tabs:
+Put the bar to the bottom:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/02.png)
+![Put the bar to the bottom](https://deepeloper.github.io/debeetle-media/images/02.png?1)
 
-Included files list:
+Put the bar to the top:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/03.png)
+![Put the bar to the top](https://deepeloper.github.io/debeetle-media/images/03.png?1)
 
-Error reports plugin:
+Project homepage link:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/04.png)
+![Project homepage link](https://deepeloper.github.io/debeetle-media/images/04.png?1)
+
+Hide project homepage link:
+
+![Hide project homepage link](https://deepeloper.github.io/debeetle-media/images/05.png?1)
+
+Show project homepage link:
+
+![Show project homepage link](https://deepeloper.github.io/debeetle-media/images/06.png?1)
+
+Turn on the panel:
+
+![Turn on the panel](https://deepeloper.github.io/debeetle-media/images/07.png?1)
+
+Turn off the panel:
+
+![Turn off the panel](https://deepeloper.github.io/debeetle-media/images/08.png?1)
+
+Reload the page to view debug:
+
+![Reload the page to view debug](https://deepeloper.github.io/debeetle-media/images/09.png?1)
+
+Server time:
+
+![Server time](https://deepeloper.github.io/debeetle-media/images/10.png?1)
+
+PHP version:
+
+![PHP version](https://deepeloper.github.io/debeetle-media/images/11.png?1)
 
 Page total time:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/05.png)
+![Page total time](https://deepeloper.github.io/debeetle-media/images/12.png)
 
 Memory usage:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/06.png)
+![Memory usage](https://deepeloper.github.io/debeetle-media/images/13.png)
 
 Peak memory usage:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/07.png)
+![Peak memory usage](https://deepeloper.github.io/debeetle-media/images/14.png)
 
-Included files number:
+Included files:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/08.png)
+![Included files](https://deepeloper.github.io/debeetle-media/images/15.png)
 
-Visited pages history containing summary information:
+Click to show the panel:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/09.png)
+![Click to show the panel](https://deepeloper.github.io/debeetle-media/images/16.png)
+
+Click to hide the panel, trace &amp; dumping object:
+
+![Click to hide the panel, trace &amp; dumping object](https://deepeloper.github.io/debeetle-media/images/.png)
+
+Backslashed tab name\:
+
+![Backslashed tab name\](https://deepeloper.github.io/debeetle-media/images/18.png)
+
+Nested tabs:
+
+![Nested tabs](https://deepeloper.github.io/debeetle-media/images/19.png)
+
+Environment &raquo; Included files:
+
+![](https://deepeloper.github.io/debeetle-media/images/20.png)
+
+Error reports (plugin):
+
+![Error reports (plugin)](https://deepeloper.github.io/debeetle-media/images/21.png)
+
+Benchmarks (plugin):
+
+![Benchmarks (plugin)](https://deepeloper.github.io/debeetle-media/images/22.png)
+
+Debeetle &raquo; Visited pages history containing summary information:
+
+![Debeetle &raquo; Visited pages history](https://deepeloper.github.io/debeetle-media/images/23.png)
+
+Debeetle &raquo; Settings:
+
+![Debeetle &raquo; Settings](https://deepeloper.github.io/debeetle-media/images/24.png)
 
 Color theme, panel opacity and zoom:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/10.png)
+![Color theme, panel opacity and zoom](https://deepeloper.github.io/debeetle-media/images/25.png)
 
-Trace&apos;n&apos;Dump plugin global actions:
+&laquo;Trace&apos;n&apos;Dump&raquo; plugin global actions:
 
-![Dumping object](https://deepeloper.github.io/debeetle-media/images/11.png)
+![&laquo;Trace&apos;n&apos;Dump&raquo; plugin global actions](https://deepeloper.github.io/debeetle-media/images/26.png)
