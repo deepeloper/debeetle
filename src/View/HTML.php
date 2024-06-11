@@ -18,7 +18,7 @@ use DirectoryIterator;
  */
 class HTML implements ViewInterface
 {
-    const VERSION = "1.3.000";
+    const VERSION = "1.3.001";
 
     /**
      * Settings
