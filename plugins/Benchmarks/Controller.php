@@ -110,7 +110,7 @@ class Controller extends AbstractController
                 'started' => microtime(true),
             ];
         }
-        if (in_array("debeetle", $this->exclude['time'])) {
+        if (isset($this->exclude['time']) && in_array("debeetle", $this->exclude['time'])) {
             $internal = $this->debeetle->getInternalBenches();
             $this->benchmarks[$label]['internalTime'] = $internal['total']['time'];
         }
@@ -129,7 +129,7 @@ class Controller extends AbstractController
             return $this->onError("Ending not started benchmark '$label'");
         }
         $this->benchmarks[$label]['total'] += (microtime(true) - $this->benchmarks[$label]['started']);
-        if (in_array("debeetle", $this->exclude['time'])) {
+        if (isset($this->exclude['time']) && in_array("debeetle", $this->exclude['time'])) {
             $internal = $this->debeetle->getInternalBenches();
             $this->benchmarks[$label]['total'] -=
                 ($internal['total']['time'] - $this->benchmarks[$label]['internalTime']);
@@ -167,7 +167,7 @@ class Controller extends AbstractController
                 $prevIndex = sizeof($this->checkpoints[$label]['data']) - 1;
                 $data = $this->checkpoints[$label]['data'][$prevIndex];
                 $data['timeToNext'] = $time - $this->checkpoints[$label]['time'];
-                if (in_array("debeetle", $this->exclude['time'])) {
+                if (isset($this->exclude['time']) && in_array("debeetle", $this->exclude['time'])) {
                     $data['timeToNext'] -= ($internal['total']['time'] - $data['internalTime']);
                     unset($data['internalTime']);
                 }
@@ -207,7 +207,7 @@ class Controller extends AbstractController
             'memoryUsage' => memory_get_usage(),
             'peakMemoryUsage' => memory_get_peak_usage(),
         ];
-        if (in_array("debeetle", $this->exclude['time'])) {
+        if (isset($this->exclude['time']) && in_array("debeetle", $this->exclude['time'])) {
             $data['internalTime'] = $internal['total']['time'];
         }
         foreach (["memoryUsage", "peakMemoryUsage"] as $type) {
@@ -215,7 +215,7 @@ class Controller extends AbstractController
                          'scriptInit' => "initState",
                          'debeetle' => "total",
                      ] as $exclusion => $target) {
-                if (in_array($exclusion, $this->exclude[$type])) {
+                if (isset($this->exclude['time']) && in_array($exclusion, $this->exclude[$type])) {
                     $data[$type] -= $internal[$target]['memoryUsage'];
                 }
             }
