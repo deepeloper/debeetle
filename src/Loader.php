@@ -49,10 +49,7 @@ class Loader
      * @return DebeetleInterface|array|void  Instance or array of settings
      * @throws Exception
      */
-    public static function startup(
-        array $startup,
-        $makeInstance = true
-    )
+    public static function startup(array $startup, $makeInstance = true)
     {
         @ini_set("unserialize_callback_func", "spl_autoload_call");
 
@@ -68,11 +65,12 @@ class Loader
             $settings['delayBeforeShowInBrowser'] = 0;
         }
 
-/*
-        if (!empty($settings['logger'])) {
-            self::$logger = new Logger($settings['logger']);
-        }
-*/
+
+        /*
+                if (!empty($settings['logger'])) {
+                    self::$logger = new Logger($settings['logger']);
+                }
+        */
 
         $settings['skin'] = array_filter($settings['skin'], function (array $skin) {
             return !empty($skin['use']) && class_exists($skin['class']);
@@ -127,17 +125,20 @@ class Loader
             } else {
                 $instance = new Debeetle($settings + $startup);
                 // Load plugins
-                foreach ($settings['plugin'] as $id => $plugin) {
-                    /**
-                     * @var ControllerInterface $plugin
-                     */
-                    $plugin = new $plugin['class']();
-                    $plugin->setInstance($instance, $id);
-                    $plugin->init();
+                if ($instance->isLaunched()) {
+                    foreach ($settings['plugin'] as $id => $plugin) {
+                        /**
+                         * @var ControllerInterface $plugin
+                         */
+                        $plugin = new $plugin['class']();
+                        $plugin->setInstance($instance, $id);
+                        $plugin->init();
+                    }
+                    // Settings can be modifyed by plugins.
+                    self::$settings = $settings;
                 }
                 d::setInstance($instance);
             }
-            self::$settings = $settings;
             return $instance;
         }
         return self::$settings;

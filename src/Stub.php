@@ -16,6 +16,11 @@ use deepeloper\Debeetle\View\Stub as ViewStub;
  */
 class Stub implements DebeetleInterface
 {
+    public function isLaunched()
+    {
+        return false;
+    }
+
     /**
      * Magic caller.
      *
@@ -62,10 +67,11 @@ class Stub implements DebeetleInterface
      *
      * @param string $name  Method name
      * @param callable $handler  Method handler
-     * @param bool $override  Override existent handler
+     * @param ?int $optionsArgIndex  $options argument index
+     * @param ?bool $override  Override existent handler
      * @return void
      */
-    public function registerMethod($name, callable $handler, $override = false)
+    public function registerMethod($name, callable $handler, $optionsArgIndex = null, $override = false)
     {
     }
 

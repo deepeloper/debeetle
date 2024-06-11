@@ -37,10 +37,19 @@ return [
     'tab-includedFiles' => "Included files",
     'tab-history' => "History",
     'tab-settings' => "Settings",
-    'tab-panel' => "Panel",
     'tab-about' => "About",
     'tab-loadedConfig' => "Loaded config",
+
+    // "debeetle|resourceUsage" tab.
     'tab-resourceUsage' => "Resource usage",
+    'thInitializing' => "Initializing",
+    'thScript' => "Script",
+    'thDebbetle' => "Debbetle",
+    'thOverall' => "Overall",
+    'tdTime' => "Time, sec.",
+    'tdMemoryUsage' => "Memory usage, bytes",
+    'tdPeakMemoryUsage' => "Peak memory usage, bytes",
+    'tdIncludedFiles' => "Included files",
 
     // "debeetle|settings" tab.
     'skin' => "Skin:",

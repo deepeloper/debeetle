@@ -107,7 +107,12 @@ class Debeetle implements DebeetleInterface
         $this->init($settings);
     }
 
-    /**
+    public function isLaunched()
+    {
+        return !$this->skip;
+    }
+
+        /**
      * Magic caller.
      *
      * @param string $method  Method name
@@ -454,7 +459,7 @@ class Debeetle implements DebeetleInterface
                         : 'Y/m/d H:i:s O (T)';
                 return
                     [
-                        date($format, $iBench['scriptInitState'][$type])
+                        date($format, $iBench['initState'][$type])
                     ];
 
             case "phpVersion":
@@ -462,7 +467,7 @@ class Debeetle implements DebeetleInterface
                 break;
 
             case "pageTotalTime":
-                $toExclude = $iBench['scriptInitState']['time'];
+                $toExclude = $iBench['initState']['time'];
                 if (in_array('debeetle', $exclude)) {
                     $toExclude += $iBench['total']['time'];
                 }
@@ -472,7 +477,7 @@ class Debeetle implements DebeetleInterface
             case "memoryUsage":
                 $toExclude = 0;
                 if (in_array('scriptInit', $exclude)) {
-                    $toExclude += $iBench['scriptInitState'][$type];
+                    $toExclude += $iBench['initState'][$type];
                 }
                 if (in_array('debeetle', $exclude)) {
                     $toExclude += $iBench['total'][$type];
@@ -481,26 +486,21 @@ class Debeetle implements DebeetleInterface
                 break;
 
             case "peakMemoryUsage":
-                if (function_exists('memory_get_peak_usage')) {
-                    $toExclude = 0;
-                    if (in_array('scriptInit', $exclude)) {
-                        $toExclude += $iBench['scriptInitState'][$type];
-                    }
-                    if (in_array('debeetle', $exclude)) {
-                        $toExclude += $iBench['total'][$type];
-                    }
-                    $value = memory_get_peak_usage() - $toExclude;
+                $toExclude = 0;
+                if (in_array('scriptInit', $exclude)) {
+                    $toExclude += $iBench['initState'][$type];
                 }
+                if (in_array('debeetle', $exclude)) {
+                    $toExclude += $iBench['total'][$type];
+                }
+                $value = memory_get_peak_usage() - $toExclude;
                 break;
 
             case "includedFiles":
-                $value = in_array('debeetle', $exclude) ? $iBench['total'][$type] : sizeof(get_included_files());
+                $value = in_array("debeetle", $exclude) ? $iBench['total'][$type] : sizeof(get_included_files());
                 break;
         }
-        $params =
-            isset($bench[$type])
-                ? $bench[$type]
-                : [];
+        $params = isset($bench[$type]) ? $bench[$type] : [];
         if (isset($params['divider'])) {
             $value = $value / $params['divider'];
             /*
@@ -509,11 +509,11 @@ class Debeetle implements DebeetleInterface
             }
             */
         }
-        $warning = '';
+        $warning = "";
         if (isset($params['critical']) && $value >= $params['critical']) {
-            $warning = 'critical';
+            $warning = "critical";
         } else if (isset($params['warning']) && $value >= $params['warning']) {
-            $warning = 'warning';
+            $warning = "warning";
         }
         if (isset($params['format']) && !is_null($value)) {
             $value = (float)sprintf($params['format'], $value);
@@ -613,10 +613,8 @@ class Debeetle implements DebeetleInterface
     protected function init(array $settings)
     {
         $this->bench = [
-            'scriptInitState' => $settings['scriptInitState'],
             'initState' => $settings['initState'],
             'skip' => false,
-            'pmu' => function_exists('memory_get_peak_usage'),
             'total' => [
                 'time' => 0,
                 'memoryUsage' => 0,
@@ -625,7 +623,7 @@ class Debeetle implements DebeetleInterface
             ],
             'calls' => [],
         ];
-        unset($settings['scriptInitState'], $settings['initState']);
+        unset($settings['initState']);
         $this->settings = $settings + ['disabledTabs' => []];
         foreach ($this->settings['skin'] as $skin) {
             $this->addPath(call_user_func([$skin['class'], "getPath"]));
@@ -669,10 +667,8 @@ class Debeetle implements DebeetleInterface
             'peakMemoryUsage' => 0,
             'memoryUsage' => memory_get_usage() - $this->bench['initState']['memoryUsage'],
         ];
-        if ($this->bench['pmu']) {
-            $this->bench['onLoad']['peakMemoryUsage'] =
-                memory_get_peak_usage() - $this->bench['initState']['peakMemoryUsage'];
-        }
+        $this->bench['onLoad']['peakMemoryUsage'] =
+            memory_get_peak_usage() - $this->bench['initState']['peakMemoryUsage'];
         $this->bench['onLoad']['time'] = microtime(true) - $this->bench['initState']['time'];
         $this->bench['total'] = $this->bench['onLoad'] + ['qty' => 0];
 
@@ -688,10 +684,14 @@ class Debeetle implements DebeetleInterface
 
     protected function startInternalBench()
     {
+        if (!isset($this->bench['total']['qty'])) {
+            $e = new \Exception();
+            file_put_contents("e:/q.log", $e->getTraceAsString() . "\n", FILE_APPEND);###
+        }
         $this->bench['total']['qty']++;
         $this->bench['calls'][] = [
             'memoryUsage' => memory_get_usage(),
-            'peakMemoryUsage' => $this->bench['pmu'] ? memory_get_peak_usage() : 0,
+            'peakMemoryUsage' => memory_get_peak_usage(),
             'time' => microtime(true),
         ];
     }
@@ -702,10 +702,7 @@ class Debeetle implements DebeetleInterface
         if (0 === sizeof($this->bench['calls'])) {
             $this->bench['total']['includedFiles'] = sizeof($this->getExternalIncludedFiles());
             $this->bench['total']['memoryUsage'] += (memory_get_usage() - $current['memoryUsage']);
-            if ($this->bench['pmu']) {
-                $this->bench['total']['peakMemoryUsage'] +=
-                    $this->bench['pmu'] ? (memory_get_peak_usage() - $current['peakMemoryUsage']) : 0;
-            }
+            $this->bench['total']['peakMemoryUsage'] += memory_get_peak_usage() - $current['peakMemoryUsage'];
             $this->bench['total']['time'] += (microtime(true) - $current['time']);
         }
     }

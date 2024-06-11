@@ -15,6 +15,8 @@ use deepeloper\Debeetle\View\ViewInterface;
  */
 interface DebeetleInterface
 {
+    public function isLaunched();
+
     /**
      * Magic caller.
      *

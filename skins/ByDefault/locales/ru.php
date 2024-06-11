@@ -38,7 +38,16 @@ return [
     'tab-panel' => "Панель",
     'tab-about' => "О программе",
     'tab-loadedConfig' => "Загруженная конфигурация",
+
+    // "debeetle|resourceUsage" tab.
     'tab-resourceUsage' => "Использование ресурсов",
+    'thInitializing' => "Инициализация",
+    'thScript' => "Скрипт",
+    'thOverall' => "Всего",
+    'tdTime' => "Время, сек.",
+    'tdMemoryUsage' => "Использование памяти, байтов",
+    'tdPeakMemoryUsage' => "Пиковое использование памяти, байтов",
+    'tdIncludedFiles' => "Подключенные файлы",
 
     // "debeetle|settings" tab.
     'skin' => "Скин:",

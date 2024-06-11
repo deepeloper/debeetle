@@ -18,7 +18,7 @@ use DirectoryIterator;
  */
 class HTML implements ViewInterface
 {
-    const VERSION = "1.2.005";
+    const VERSION = "1.2.006";
 
     /**
      * Settings
@@ -146,6 +146,7 @@ class HTML implements ViewInterface
             }
 
             ob_start();
+            $locales = $this->settings['locales'];
             require_once $this->settings['path']['assets'] . "/tabs/$file";
             $content = ob_get_clean();
             if ($content) {

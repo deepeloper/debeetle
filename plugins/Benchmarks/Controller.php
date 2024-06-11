@@ -205,16 +205,14 @@ class Controller extends AbstractController
         $data = [
             'timeToNext' => 0,
             'memoryUsage' => memory_get_usage(),
+            'peakMemoryUsage' => memory_get_peak_usage(),
         ];
-        if ($internal['pmu']) {
-            $data['peakMemoryUsage'] = memory_get_peak_usage();
-        }
         if (in_array("debeetle", $this->exclude['time'])) {
             $data['internalTime'] = $internal['total']['time'];
         }
         foreach (["memoryUsage", "peakMemoryUsage"] as $type) {
             foreach ([
-                         'scriptInit' => "scriptInitState",
+                         'scriptInit' => "initState",
                          'debeetle' => "total",
                      ] as $exclusion => $target) {
                 if (in_array($exclusion, $this->exclude[$type])) {
