@@ -419,7 +419,7 @@ class Debeetle implements DebeetleInterface
      */
     public function getExternalIncludedFiles()
     {
-        return array_filter(get_included_files(), function ($path) {
+        return array_values(array_filter(get_included_files(), function ($path) {
             $path = str_replace("\\", "/", dirname($path)) . "/";
             $externalFile = true;
             foreach ($this->paths as $debeetlePath) {
@@ -429,7 +429,7 @@ class Debeetle implements DebeetleInterface
                 }
             }
             return $externalFile;
-        });
+        }));
     }
 
     /**
@@ -641,7 +641,6 @@ class Debeetle implements DebeetleInterface
         if ($this->skip) {
             return;
         }
-        $this->addPath(realpath(__DIR__ . "/../vendor"));
         $this->addPath(realpath(__DIR__));
         $this->addPath($this->settings['path']['assets']);
 
@@ -684,10 +683,6 @@ class Debeetle implements DebeetleInterface
 
     protected function startInternalBench()
     {
-        if (!isset($this->bench['total']['qty'])) {
-            $e = new \Exception();
-            file_put_contents("e:/q.log", $e->getTraceAsString() . "\n", FILE_APPEND);###
-        }
         $this->bench['total']['qty']++;
         $this->bench['calls'][] = [
             'memoryUsage' => memory_get_usage(),
