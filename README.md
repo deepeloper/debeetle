@@ -105,9 +105,9 @@ Click to hide the panel, trace &amp; dumping object:
 
 ![Click to hide the panel, trace &amp; dumping object](https://deepeloper.github.io/debeetle-media/images/17.png)
 
-Backslashed tab name\:
+Backslashed tab name&bsol;:
 
-![Backslashed tab name\](https://deepeloper.github.io/debeetle-media/images/18.png)
+![Backslashed tab name&bsol;](https://deepeloper.github.io/debeetle-media/images/18.png)
 
 Nested tabs:
 
