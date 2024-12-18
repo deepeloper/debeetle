@@ -6,7 +6,7 @@
   "keywords": ["php", "debug", "debugging", "tools"],
   "license": "MIT",
   "require": {
-    "php": ">=5.4",
+    "php": ">=8.4",
     "ext-dom": "*",
     "ext-json": "*",
     "ext-libxml": "*",
