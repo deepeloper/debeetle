@@ -101,7 +101,7 @@ class d
      * @see Debeetle::tab()
      * @see Tree::select()
      */
-    public static function t($id, $name = null, array $places = null, array $options = [])
+    public static function t($id, $name = null, ?array $places = null, array $options = [])
     {
         if (self::$skip) {
             return;

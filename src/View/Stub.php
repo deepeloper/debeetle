@@ -31,10 +31,10 @@ class Stub implements ViewInterface
     /**
      * Set tab object
      *
-     * @param  Tree $tab
+     * @param ?Tree $tab
      * @return void
      */
-    public function setTab(Tree $tab = null)
+    public function setTab(?Tree $tab = null)
     {
     }
 

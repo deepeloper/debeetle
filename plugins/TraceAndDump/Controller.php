@@ -103,7 +103,7 @@ class Controller extends AbstractController
      * @param ?array $options  Reserved array for functionality enhancement
      * @return void
      */
-    public function trace(array $trace = null, $label = '', array $options = [])
+    public function trace(?array $trace = null, $label = '', array $options = [])
     {
         if ($label !== "" && !$this->debeetle->checkLabel("trace", $label, $options)) {
             return;
@@ -311,7 +311,7 @@ class Controller extends AbstractController
      * @see Debeetle::trace()
      * @todo Several transforms?
      */
-    protected function renderTrace(array $trace = null, array $options = [])
+    protected function renderTrace(?array $trace = null, array $options = [])
     {
         if (is_null($trace)) {
             if (empty($options['displayArgs'])) {

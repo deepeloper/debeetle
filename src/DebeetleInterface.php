@@ -115,7 +115,7 @@ interface DebeetleInterface
      * @param array $options
      * @return void
      */
-    public function tab($id, $name = null, array $places = null, array $options = []);
+    public function tab($id, $name = null, ?array $places = null, array $options = []);
 
     /**
      * Writes string to debug output.

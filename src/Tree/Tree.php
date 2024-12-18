@@ -115,7 +115,7 @@ class Tree
      * @throws InvalidPlaceException  When cannot add tab at specified places, developer mode only.
      * @todo Remove $active argument?
      */
-    public function select($id, $caption = null, array $places = null, $active = false)
+    public function select($id, $caption = null, ?array $places = null, $active = false)
     {
         $explodedId = explode("|", $id);
         if (null === $caption) {

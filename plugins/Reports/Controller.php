@@ -85,7 +85,7 @@ class Controller extends AbstractController
             $count = 0,
             $levels = [
                 "ERROR", "WARNING", "PARSE", "NOTICE", "CORE_ERROR", "CORE_WARNING", "COMPILE_ERROR", "COMPILE_WARNING",
-                "USER_ERROR", "USER_WARNING", "USER_NOTICE", "STRICT", "RECOVERABLE_ERROR", "DEPRECATED",
+                "USER_ERROR", "USER_WARNING", "USER_NOTICE", "RECOVERABLE_ERROR", "DEPRECATED",
                 "USER_DEPRECATED", "UNKNOWN",
             ];
 

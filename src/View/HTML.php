@@ -86,7 +86,7 @@ class HTML implements ViewInterface
      * @param ?Tree $tab
      * @return void
      */
-    public function setTab(Tree $tab = null)
+    public function setTab(?Tree $tab = null)
     {
         $this->tab = $tab;
     }

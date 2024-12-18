@@ -304,7 +304,7 @@ class Debeetle implements DebeetleInterface
      * @see d::t()
      * @todo Describe options.
      */
-    public function tab($id, $name = null, array $places = null, array $options = [])
+    public function tab($id, $name = null, ?array $places = null, array $options = [])
     {
         if ($this->skip) {
             return;
