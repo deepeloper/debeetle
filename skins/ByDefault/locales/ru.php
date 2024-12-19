@@ -43,7 +43,7 @@ return [
     'tab-resourceUsage' => "Использование ресурсов",
     'thInitializing' => "Инициализация",
     'thScript' => "Скрипт",
-    'thOverall' => "Всего",
+    'thTotal' => "Всего",
     'tdTime' => "Время, сек.",
     'tdMemoryUsage' => "Использование памяти, байтов",
     'tdPeakMemoryUsage' => "Пиковое использование памяти, байтов",

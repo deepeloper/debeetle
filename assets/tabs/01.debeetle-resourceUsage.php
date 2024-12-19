@@ -19,7 +19,7 @@ $bench = d::getInstance()->getInternalBenches();
     <th><?= $locales['thInitializing'] ?></th>
     <th><?= $locales['thScript'] ?></th>
     <th><?= $locales['thDebbetle'] ?></th>
-    <th><?= $locales['thOverall'] ?></th>
+    <th><?= $locales['thTotal'] ?></th>
   </tr>
   </thead>
   <tbody>

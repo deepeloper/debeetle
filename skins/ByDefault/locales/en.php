@@ -45,7 +45,7 @@ return [
     'thInitializing' => "Initializing",
     'thScript' => "Script",
     'thDebbetle' => "Debbetle",
-    'thOverall' => "Overall",
+    'thTotal' => "Total",
     'tdTime' => "Time, sec.",
     'tdMemoryUsage' => "Memory usage, bytes",
     'tdPeakMemoryUsage' => "Peak memory usage, bytes",
