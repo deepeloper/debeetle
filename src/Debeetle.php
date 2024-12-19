@@ -643,6 +643,9 @@ class Debeetle implements DebeetleInterface
         }
         $this->addPath(realpath(__DIR__));
         $this->addPath($this->settings['path']['assets']);
+        if (isset($this->bench['initState']['autoloadPath'])) {
+            $this->addPath(\dirname($this->bench['initState']['autoloadPath']));
+        }
 
         $this->settings['skins'] = [];
         if (
