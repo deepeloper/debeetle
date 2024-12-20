@@ -601,6 +601,7 @@ class Debeetle implements DebeetleInterface
      */
     public function dropOnShutdown($type)
     {
+//        \var_dump($this->skip);die;###
         unset($this->onShutdown[$type]);
     }
 
@@ -637,6 +638,9 @@ class Debeetle implements DebeetleInterface
         $request = HTTPRequest::getInstance();
         $cookie = $request->get($this->settings['cookie']['name'], null, "c");
         $this->skip = empty($cookie);
+        if ($this->skip) {
+            $this->settings['plugin'] = [];
+        }
         $this->tab = new Tree($this->settings);
         if ($this->skip) {
             return;

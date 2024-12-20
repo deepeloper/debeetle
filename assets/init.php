@@ -14,11 +14,10 @@
 require_once __DIR__ . "/stub.php";
 
 /**
+ * @var array $scope
  * @var array $data
  * @var string $tabs
  * @var string $captions
- * @var string $skin
- * @var string $theme
  */
 
 ?>
@@ -66,7 +65,7 @@ $d = {
   }
 }
 
-let skin = '<?= $skin ?>', theme = '<?= $theme ?>', state = localStorage.getItem('<?= $data['cookie']['name'] ?>');
+let skin = '<?= $scope['skin'] ?>', theme = '<?= $scope['theme'] ?>', state = localStorage.getItem('<?= $data['cookie']['name'] ?>');
 if (null !== state) {
   state = JSON.parse(state);
   if ("undefined" !== typeof(state.skin)) {

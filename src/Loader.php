@@ -92,26 +92,16 @@ class Loader
             $settings['plugin'] = [];
         }
 
-        $settings['locales'] = [];
         $language = $settings['defaults']['language'];
-        $locales = array_unique([$language, "en"]);
+        $allowedLocales = array_unique([$language, "en"]);
         $skinPath = call_user_func([$settings['skin'][$settings['defaults']['skin']]['class'], "getPath"]);
-        foreach ($locales as $locale) {
-            $path = "$skinPath/locales/$locale.php";
-            if (file_exists($path)) {
-                $settings['locales'] = require $path;
-                break;
-            }
-        }
-        foreach ($settings['plugin'] as $plugin) {
-            $pluginPath = call_user_func([$plugin['class'], "getPath"]);
-            if (!empty($plugin['locale'])) {
-                foreach ($locales as $locale) {
-                    $path = "$pluginPath/locales/$locale.php";
-                    if (file_exists($path)) {
-                        $settings['locales'] += require $path;
-                        break;
-                    }
+        $settings['locales'] = self::addLocales($allowedLocales, "$skinPath/locales/%s.php");
+
+        if (!$makeInstance) {
+            foreach ($settings['plugin'] as $plugin) {
+                if (!empty($plugin['locale'])) {
+                    $pluginPath = call_user_func([$plugin['class'], "getPath"]);
+                    $settings['locales'] += self::addLocales($allowedLocales, "$pluginPath/locales/%s.php");
                 }
             }
         }
@@ -127,6 +117,16 @@ class Loader
                 // Load plugins
                 if ($instance->isLaunched()) {
                     foreach ($settings['plugin'] as $id => $plugin) {
+                        if (!empty($plugin['locale'])) {
+                            $pluginPath = call_user_func([$plugin['class'], "getPath"]);
+                            $pluginLocales = self::addLocales($allowedLocales, "$pluginPath/locales/%s.php");
+                            if ([] !== $pluginLocales) {
+                                $instanceSettings = &$instance->getSettings();
+                                $instanceSettings['locales'] += $pluginLocales;
+                            }
+                            $instance->getView()->addLocales($pluginLocales);
+                        }
+
                         /**
                          * @var ControllerInterface $plugin
                          */
@@ -420,5 +420,18 @@ class Loader
             unset($record[$elementName]);
         });
         $array = array_combine($keys, $array);
+    }
+
+    protected static function addLocales(array $allowedLocales, string $path): array
+    {
+        $locales = [];
+        foreach ($allowedLocales as $locale) {
+            $filePath = sprintf($path, $locale);
+            if (file_exists($filePath)) {
+                $locales = require $filePath;
+                break;
+            }
+        }
+        return $locales;
     }
 }

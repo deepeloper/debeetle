@@ -18,7 +18,7 @@ use DirectoryIterator;
  */
 class HTML implements ViewInterface
 {
-    const VERSION = "1.3.002";
+    const VERSION = "1.4.000";
 
     /**
      * Settings
@@ -104,70 +104,76 @@ class HTML implements ViewInterface
             // no output
             return "";
         }
-        d::getInstance()->dropOnShutdown("history");
-        extract($this->scope);
-        foreach (['version', 'skin', 'theme'] as $var) {
-            $$var = rawurlencode($$var);
+        $isLaunched = d::getInstance()->isLaunched();
+        if ($isLaunched) {
+            d::getInstance()->dropOnShutdown("history");
         }
-        if ($this->settings['developerMode']) {
+        $scope = $this->scope;
+        unset($this->scope);
+        foreach (['version', 'skin', 'theme'] as $var) {
+            $scope[$var] = rawurlencode($scope[$var]);
+        }
+        if ($isLaunched && $this->settings['developerMode']) {
             $settings = $this->settings;
             unset($settings['limits']);
             d::t("debeetle|loadedConfig");
             d::dump($settings, "", ['hideTrace' => true]);
         }
+
         ob_start();
-        $dir = new DirectoryIterator(
-            $this->settings['path']['assets'] . '/tabs'
-        );
-        $tabSettingsContent = '';
-        foreach ($dir as $file) {
-            $name = $file->getBasename('.php');
-            if (
-                $file->isDot() ||
-                $file->isDir() ||
-                !preg_match('/^\d+\./', $name))
-            {
-                continue;
-            }
-            $tab = preg_replace(
-                ['/^\d+\./', '/-/'],
-                ['', '|'],
-                $name
+        if ($isLaunched) {
+            $dir = new DirectoryIterator(
+                $this->settings['path']['assets'] . "/tabs"
             );
-
-            if(
-                (
-                    !$this->settings['developerMode'] &&
-                    in_array($tab, ["debeetle|loadedConfig", "debeetle|resourceUsage"])
-                ) ||
-                in_array($tab, $this->settings['disabledTabs'])
-            ) {
-                continue;
-            }
-
-            ob_start();
-            $locales = $this->settings['locales'];
-            require_once $this->settings['path']['assets'] . "/tabs/$file";
-            $content = ob_get_clean();
-            if ($content) {
-                d::t($tab);
-                d::w(
-                    $content,
-                    ['htmlEntities' => false, 'nl2br' => false]
+            $tabSettingsContent = "";
+            foreach ($dir as $file) {
+                $name = $file->getBasename('.php');
+                if (
+                    $file->isDot() ||
+                    $file->isDir() ||
+                    !preg_match('/^\d+\./', $name)) {
+                    continue;
+                }
+                $tab = preg_replace(
+                    ['/^\d+\./', '/-/'],
+                    ['', '|'],
+                    $name
                 );
-            }
-            unset($content);
-            if ("debeetle|settings" === $tab) {
-                d::getInstance()->callPluginMethod("displaySettings");
-            }
-        }
 
-        $displayHistory = !empty($this->settings['history']) &&
-            isset($this->settings['history']['records']) &&
-            $this->settings['history']['records'] > 0;
+                if (
+                    (
+                        !$this->settings['developerMode'] &&
+                        in_array($tab, ["debeetle|loadedConfig", "debeetle|resourceUsage"])
+                    ) ||
+                    in_array($tab, $this->settings['disabledTabs'])
+                ) {
+                    continue;
+                }
 
-        if ($displayHistory) {
-            d::t("debeetle|history", null, ["before:debeetle|settings"]);
+                ob_start();
+                $locales = $this->settings['locales'];
+                require_once $this->settings['path']['assets'] . "/tabs/$file";
+                $content = ob_get_clean();
+                if ($content) {
+                    d::t($tab);
+                    d::w(
+                        $content,
+                        ['htmlEntities' => false, 'nl2br' => false]
+                    );
+                }
+                unset($content);
+                if ("debeetle|settings" === $tab) {
+                    d::getInstance()->callPluginMethod("displaySettings");
+                }
+            }
+
+            $displayHistory = !empty($this->settings['history']) &&
+                isset($this->settings['history']['records']) &&
+                $this->settings['history']['records'] > 0;
+
+            if ($displayHistory) {
+                d::t("debeetle|history", null, ["before:debeetle|settings"]);
+            }
         }
 
         // Used in "init.php".
@@ -176,7 +182,7 @@ class HTML implements ViewInterface
 
         // Used in "init.php".
         $data = [
-            'version' => urldecode($this->scope['version']),
+            'version' => urldecode($scope['version']),
             'cookie' => $this->settings['cookie'],
             'delayBeforeShowInBrowser' => $this->settings['delayBeforeShowInBrowser'],
             'path' => ['script' => $this->settings['path']['script']],
@@ -186,7 +192,7 @@ class HTML implements ViewInterface
         if(!empty($this->settings['skins'])) {
             $data['skins'] = $this->settings['skins'];
         }
-        if($displayHistory) {
+        if($isLaunched && $displayHistory) {
             $data['history'] = $this->settings['history'];
             foreach (['name' => "history", 'storage' => "session"] as $option => $default) {
                 $$option = isset($this->settings['history'][$option])
