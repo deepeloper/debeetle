@@ -12,7 +12,13 @@ Supports panel visibility for any conditions for `$_SERVER` / `$_COOKIE` / `$_SE
 [![Donation](https://img.shields.io/badge/Donation-Visa,%20MasterCard,%20Maestro,%20UnionPay,%20YooMoney,%20МИР-red)](https://yoomoney.ru/to/41001351141494)
 
 ## Compatibility
-[![PHP 5.4](https://img.shields.io/badge/PHP->=5.4-%237A86B8)]()
+[![PHP >=5.4 <8.2](https://img.shields.io/badge/PHP-%3E=5.4%20%3C8.2-%237A86B8)]()
+&oline;&oline;
+[![2.3.0](https://img.shields.io/badge/Release-<1.4.000-%233fb950)](https://github.com/deepeloper/debeetle/releases/tag/2.3.0)
+
+[![PHP >=5.4](https://img.shields.io/badge/PHP->=8.4-%237A86B8)]()
+&oline;&oline;
+[![2.3.0](https://img.shields.io/badge/Release->=1.4-%233fb950)](https://github.com/deepeloper/debeetle/releases/tag/1.4.0000)
 
 ## Live demo:
 https://deepelopment.free.nf/debeetle/path/to/page/
